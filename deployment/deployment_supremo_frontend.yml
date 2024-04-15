@@ -1,31 +1,20 @@
 ---
 apiVersion: v1
-kind: Namespace
-metadata:
-    name: supremo-rentals-arm
----
-apiVersion: v1
 kind: Service
 metadata:
   name: react-frontend-svc
   labels:
     tier: frontend
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: supremorentalsarm.oracledemo.online
     oci.oraclecloud.com/load-balancer-type: "lb"
     service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
     service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
-    service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
-    service.beta.kubernetes.io/oci-load-balancer-ssl-ports: "443"
-    service.beta.kubernetes.io/oci-load-balancer-tls-secret: supremo-cert-prod
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "10"
 spec:
   type: LoadBalancer
   ports:
   - name: http
     port: 80
-    targetPort: 80
-  - name: https
-    port: 443
     targetPort: 80
   selector:
     app: react-frontend
@@ -38,7 +27,7 @@ metadata:
   labels:
     tier: frontend
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: react-frontend
@@ -49,21 +38,17 @@ spec:
         app: react-frontend
         tier: frontend
     spec:
-      nodeSelector:
-        kubernetes.io/arch: arm64
       containers:
       - name: react-frontend
-        # image: ${IMG}
-        # image: bom.ocir.io/apaccpt01/frontend/react-supremo:${IMG_TAG}
-        image: bom.ocir.io/apaccpt01/frontend/react-supremo:ace6c8c
+        image: ${IMG}
         ports:
         - containerPort: 80
         resources:
           requests:
             memory: "24Mi"
-            cpu: "250m"
+            cpu: "125m"
           limits:
             memory: "128Mi"
-            cpu: "1000m"
+            cpu: "500m"
       imagePullSecrets:
       - name: ocir-secret
