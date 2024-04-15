@@ -1,0 +1,158 @@
+ssh opc@132.226.239.21
+146.56.171.43
+
+https://oracle-base.com/articles/linux/docker-install-docker-on-oracle-linux-ol8
+
+sudo vi /etc/yum.repos.d/nginx.repo
+
+[nginx-stable]
+name=nginx stable repo
+baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
+gpgcheck=1
+enabled=1
+gpgkey=https://nginx.org/keys/nginx_signing.key
+module_hotfixes=true
+
+[nginx-mainline]
+name=nginx mainline repo
+baseurl=http://nginx.org/packages/mainline/centos/$releasever/$basearch/
+gpgcheck=1
+enabled=0
+gpgkey=https://nginx.org/keys/nginx_signing.key
+module_hotfixes=true
+
+sudo yum update
+
+sudo firewall-cmd --add-service=http --permanent
+sudo firewall-cmd --reload
+
+sudo setsebool -P httpd_setrlimit 1
+setsebool -P httpd_can_network_connect 1
+
+sudo tail -300f /var/log/messages
+kernel nf_conntrack: table full, dropping packet
+sudo conntrack -C
+sudo conntrack -L
+https://support.huaweicloud.com/intl/en-us/trouble-ecs/ecs_trouble_0324.html
+
+sudo yum install -y libaio libnsl
+
+sudo yum install docker-engine
+sudo systemctl enable docker
+sudo systemctl start docker.service
+
+sudo yum install postgresql
+
+psql -h 192.168.3.249 -U admin -d postgres
+psql -h 192.168.3.249 -p 5432 -U admin -d postgres
+psql "sslmode=require host=192.168.3.249 dbname=poc_car user=ouser password=BotWelcome123##"
+
+create user ouser with password 'BotWelcome123##';
+select * from pg_catalog.pg_user;
+alter role "ouser" with LOGIN;
+alter role ouser with createdb;
+create database poc_car with owner ouser;
+postgres=> \c poc_car
+
+poc_car=> SELECT * FROM pg_catalog.pg_tables;
+
+poc_car=> \dt+
+
+CREATE TABLE users(
+    id SERIAL PRIMARY KEY,
+    userid VARCHAR(30) NOT NULL UNIQUE,
+    fullname VARCHAR(30),
+    email VARCHAR(100),
+    mobile VARCHAR(30),
+    country VARCHAR(30),
+    membersince DATE,
+    password VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE cars(
+    id SERIAL PRIMARY KEY,
+    carid VARCHAR NOT NULL UNIQUE,
+    name VARCHAR(30) NOT NULL,
+    brand VARCHAR(30) NOT NULL,
+    fueltype VARCHAR(100) NOT NULL,
+    vehicletype VARCHAR(30) NOT NULL,
+    locations VARCHAR(300),
+    price VARCHAR(30) NOT NULL,
+    avail INT,
+    popular BOOLEAN NOT NULL
+);
+
+CREATE TABLE orders(
+    id SERIAL PRIMARY KEY,
+    orderid VARCHAR NOT NULL UNIQUE,
+    carid VARCHAR NOT NULL,
+    userid VARCHAR NOT NULL,
+    duration INT,
+    ordered BOOLEAN NOT NULL
+);
+
+select table_name, column_name, data_type from information_schema.columns where table_name='cars';
+
+insert into users (userid, fullname, email, mobile, country, membersince, password) values ('hysun', 'Hysun He', 'hysun.he@oracle.com', '18666xx58xx', 'China', CURRENT_DATE, '123456');
+insert into users (userid, fullname, email, mobile, country, membersince, password) values ('david', 'David He', 'david.he@oracke.com', '18666xx57xx', 'China', CURRENT_DATE, '123456');
+
+insert into cars (carid, name, brand, fueltype, vehicletype, locations, price, avail, popular) values ('t001', 'Corolla', 'Toyoto', 'petrol', 'sedan', '{"114.177216,22.302711", "114.188218,22.313712", "114.211318,22.352899"}', '50', 20, TRUE);
+insert into cars (carid, name, brand, fueltype, vehicletype, locations, price, avail, popular) values ('t002', 'Hilander', 'Toyoto', 'petrol', 'SUV', '{"114.177216,22.302711", "114.188218,22.313712", "114.211318,22.352899"}', '65', 15, TRUE);
+insert into cars (carid, name, brand, fueltype, vehicletype, locations, price, avail, popular) values ('t003', 'Alphard', 'Toyoto', 'petrol', 'MPV', '{"114.177216,22.302711", "114.188218,22.313712", "114.211318,22.352899"}', '100', 10, TRUE);
+insert into cars (carid, name, brand, fueltype, vehicletype, locations, price, avail, popular) values ('t004', 'Yuan', 'BYD', 'electricity', 'sedan', '{"114.177216,22.302711", "114.188218,22.313712", "114.211318,22.352899"}', '55', 30, TRUE);
+
+insert into cars (carid, name, brand, fueltype, vehicletype, locations, price, avail, popular) values ('t001', 'Corolla', 'Toyoto', 'petrol', 'sedan', 'dummy location1', '50', 20, TRUE);
+insert into cars (carid, name, brand, fueltype, vehicletype, locations, price, avail, popular) values ('t002', 'Hilander', 'Toyoto', 'petrol', 'SUV', 'dummy location2', '65', 15, TRUE);
+insert into cars (carid, name, brand, fueltype, vehicletype, locations, price, avail, popular) values ('t003', 'Alphard', 'Toyoto', 'petrol', 'MPV', 'dummy location3', '100', 10, TRUE);
+insert into cars (carid, name, brand, fueltype, vehicletype, locations, price, avail, popular) values ('t004', 'Yuan', 'BYD', 'electricity', 'sedan', 'dummy location4', '55', 30, TRUE);
+
+insert into orders (orderid, carid, userid, location, duration, ordered) values ('O-001', 't001', 'david', 'dummy location1', 8, TRUE);
+insert into orders (orderid, carid, userid, location, duration, ordered) values ('O-002', 't002', 'hysun', 'dummy location1', 6, TRUE);
+
+insert into orders (orderid, carid, userid, duration, ordered) values ('O-001', 't001', 'david', 8, TRUE);
+insert into orders (orderid, carid, userid, duration, ordered) values ('O-002', 't002', 'hysun', 6, TRUE);
+
+
+\copy users (userid, fullname, email, mobile, country, membersince, password) from './userlist.csv' DELIMITER ',' CSV HEADER;
+
+
+NoSQL:
+CREATE TABLE CarHealth ( 
+    carid string, 
+    lastservicedate timestamp(6), 
+    mileage integer, 
+    fueltype string, 
+    enginepower string, 
+    enginestatus string, 
+    transmissiontype string, 
+    fuelLevel string, 
+    PRIMARY KEY ( carid, lastservicedate ) 
+);
+
+alter table orders add column order_when TIMESTAMP DEFAULT NOW();
+
+insert into orders (orderid, carid, userid, duration, ordered) values ('O-003', 't002', 'hysun', 6, TRUE);
+
+
+create user ouser identified by BotWelcome123##
+alter user ouser
+      default tablespace data
+      temporary tablespace temp
+      account unlock
+      quota unlimited on data;
+
+grant  connect
+     , resource
+     to ouser;
+
+grant  create session
+     , create table
+     , create procedure
+     , create sequence
+     , create trigger
+     , create view
+     , create synonym
+     , alter  session
+     , create type
+     , soda_app
+     to ouser;

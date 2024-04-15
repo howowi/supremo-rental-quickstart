@@ -1,0 +1,825 @@
+# Title shown in Application Information tab.
+title: "Show & Discover Open Source Application Deployment"
+# Sub Title shown in Application Information tab.
+description: "Setup prerequisites (Autonomous Database, PostgreSQL, Opensearch, Redis, NoSQL, Load Balancer, etc.)"
+informationalText: "This stack Creates all resources needed for Open Source Application Deployment"
+schemaVersion: 1.1.0
+version: "2.1"
+locale: "en"
+variableGroups:
+  - title: "Core"
+    variables:
+      - region
+      - tenancy_ocid
+      - compartment_ocid
+      - user_ocid
+      - private_key_path
+      - fingerprint
+    visible: true
+  - title: "Network"
+    variables:
+      - network_creation_strategy
+      - vcn_name
+      - vcn_cidr
+      - subnet_strategy
+      - existing_vcn_compartment
+      - existing_vcn_id
+      - existing_subnet_compartment
+      - existing_private_subnet_id
+      - existing_vm_subnet_id
+  - title: "Autonomous Database"
+    variables:
+      - should_setup_adb
+      - should_configure_adb_params
+      - adb_admin_password
+      - adb_db_name
+      - adb_cpu_core_count
+      - adb_data_storage_size_in_tbs
+      - adb_db_version
+      - adb_db_workload
+      - adb_display_name
+      - adb_is_auto_scaling_enabled
+      - adb_is_auto_scaling_for_storage_enabled
+      - adb_is_mtls_connection_required
+      - adb_license_model
+      - adb_ocpu_count
+      - adb_private_endpoint_label
+      - adb_wallet_password
+      - adb_wallet_generate_type
+      - adb_wallet_is_regional
+
+  - title: "PostgreSQL"
+    variables:
+      - should_setup_postgresql
+      - should_configure_postgresql_params
+      - db_system_db_version
+      - db_system_display_name
+      - db_system_shape
+      - db_system_instance_count
+      - db_system_instance_memory_size_in_gbs
+      - db_system_instance_ocpu_count
+      - db_system_storage_details_is_regionally_durable
+      - db_system_credentials_password_details_password_type
+      - db_system_credentials_password_details_password
+      - db_system_credentials_username
+      - db_system_storage_details_system_type
+
+  - title: "NoSQL"
+    variables:
+      - should_setup_nosql_table
+      - should_configure_nosql_table_params
+      - nosql_table_ddl_statement
+      - nosql_table_name
+      - nosql_table_is_auto_reclaimable
+      - nosql_table_max_read_units
+      - nosql_table_max_storage_in_gbs
+      - nosql_table_max_write_units
+
+  - title: "Opensearch"
+    variables:
+      - should_setup_opensearch_cluster
+      - should_configure_opensearch_params
+      - opensearch_cluster_software_version
+      - opensearch_cluster_display_name
+      - opensearch_cluster_master_user
+      - opensearch_cluster_master_password_hash
+      - opensearch_cluster_master_password
+
+  - title: "Redis"
+    variables:
+      - should_setup_redis_cluster
+      - should_configure_redis_params
+      - redis_cluster_software_version
+      - redis_cluster_display_name
+      - redis_cluster_node_count
+      - redis_cluster_node_memory_in_gbs
+
+  - title: "Load Balancer"
+    variables:
+      - should_setup_load_balancer
+      - should_configure_load_balancer_params
+      - load_balancer_display_name
+      - load_balancer_shape
+      - load_balancer_subnet_ids
+      - load_balancer_is_private
+      - load_balancer_network_security_group_ids
+      - backend_set_health_checker_protocol
+      - backend_set_health_checker_interval_ms
+      - backend_set_health_checker_port
+      - backend_set_health_checker_response_body_regex
+      - backend_set_health_checker_retries
+      - backend_set_health_checker_return_code
+      - backend_set_health_checker_timeout_in_millis
+      - backend_set_health_checker_url_path
+      - backend_set_name
+      - backend_set_policy
+      - pg_port
+
+  - title: "Object Storage"
+    variables:
+      - objectstorage_bucket
+  
+  - title: "Compute Instance"
+    variables:
+      - should_setup_vm
+      - should_configure_compute_instance_params
+      - should_config_public_ip_for_vm
+      - vm_instance_name
+      - availability_domain_name
+      - node_shape
+      - node_flex_shape_ocpus
+      - node_flex_shape_memory
+      - ssh_public_key
+
+variables:
+  region:
+    type: oci:identity:region:name
+    required: true
+    title: "Region"
+    visible: true
+  tenancy_ocid:
+    type: string
+    required: true
+    title: "Tenancy"
+    visible: false
+  compartment_ocid:
+    type: oci:identity:compartment:id
+    required: true
+    title: "Compartment"
+    visible: true
+  user_ocid:
+    type: string
+    default: ${current_user_ocid}
+    required: true
+    title: "User"
+    visible: true
+  private_key_path:
+    visible: false
+  fingerprint:
+    visible: false
+
+  ############################
+  ####       Network      ####
+  ############################
+  network_creation_strategy:
+    type: enum
+    title: "Whether use existing network or create new network"
+    required: true
+    enum:
+      - CREATE_NEW_VCN_SUBNET
+      - USE_EXISTING_VCN_SUBNET
+    default: CREATE_NEW_VCN_SUBNET
+  vcn_name:
+    type: string
+    title: "Name of the VCN to create"
+    required: false
+    default: "show_discover_stack_vcn"
+    visible: false
+  vcn_cidr:
+    type: string
+    title: "VCN's CIDR IP Block"
+    required: false
+    default: "10.0.0.0/16"
+    visible: false
+  subnet_strategy:
+    type: enum
+    title: "Whether use separate subnet or shared subnet for Open Source"
+    required: true
+    enum:
+      - SEPARATE_SUBNET
+      - SHARED_SUBNET
+    default: SHARED_SUBNET
+    visible: false
+  existing_vcn_compartment:
+    type: oci:identity:compartment:id
+    title: "Compartment of the existing VCN"
+    default: compartment_ocid
+    required:
+      eq:
+        - ${network_creation_strategy}
+        - USE_EXISTING_VCN_SUBNET
+    visible:
+      eq:
+        - ${network_creation_strategy}
+        - USE_EXISTING_VCN_SUBNET
+  existing_vcn_id:
+    type: oci:core:vcn:id
+    title: "VCN of the existing Network"
+    required:
+      eq:
+        - ${network_creation_strategy}
+        - USE_EXISTING_VCN_SUBNET
+    dependsOn:
+      compartmentId: ${existing_vcn_compartment}
+    visible:
+      eq:
+        - ${network_creation_strategy}
+        - USE_EXISTING_VCN_SUBNET
+  existing_subnet_compartment:
+    type: oci:identity:compartment:id
+    title: "Compartment of the existing Subnets"
+    default: compartment_ocid
+    required:
+      eq:
+        - ${network_creation_strategy}
+        - USE_EXISTING_VCN_SUBNET
+    visible:
+      eq:
+        - ${network_creation_strategy}
+        - USE_EXISTING_VCN_SUBNET
+  existing_private_subnet_id:
+    type: oci:core:subnet:id
+    title: "Subnet of the existing Network for setting up Autonomous Database, PostgreSQL, NoSQL, Opensearch and Redis"
+    required:
+      eq:
+        - ${network_creation_strategy}
+        - USE_EXISTING_VCN_SUBNET
+    dependsOn:
+      compartmentId: ${existing_subnet_compartment}
+      vcnId: ${existing_vcn_id}
+    visible:
+      eq:
+        - ${network_creation_strategy}
+        - USE_EXISTING_VCN_SUBNET
+  existing_vm_subnet_id:
+    type: oci:core:subnet:id
+    title: "Subnet of the existing Network for setting up Compute Instance"
+    required:
+      eq:
+        - ${network_creation_strategy}
+        - USE_EXISTING_VCN_SUBNET
+    dependsOn:
+      compartmentId: ${existing_subnet_compartment}
+      vcnId: ${existing_vcn_id}
+    visible:
+      eq:
+        - ${network_creation_strategy}
+        - USE_EXISTING_VCN_SUBNET
+
+  ############################
+  #### Autonomous Database ###
+  ############################
+  should_setup_adb:
+    type: boolean
+    title: "Should setup Autonomous Database?"
+    default: true
+    required: true
+  should_configure_adb_params:
+    type: boolean
+    title: "Configure Autonomous Database parameters?"
+    description: "Configure various parameters for the Autonomous Database"
+    required: true
+    default: false
+    visible: should_setup_adb
+  adb_admin_password:
+    description: "Autonomous database admin password must be between 12 and 30 characters long"
+    visible:
+      and:
+        - should_setup_adb
+        - should_configure_adb_params
+  adb_db_name:
+    description: "Autonomous database name"
+    visible:
+      and:
+        - should_setup_adb
+        - should_configure_adb_params
+  adb_cpu_core_count:
+    description: "The number of CPU cores to be made available to the database"
+    visible:
+      and:
+        - should_setup_adb
+        - should_configure_adb_params
+  adb_data_storage_size_in_tbs:
+    description: "The size, in terabytes, of the data volume that will be created and attached to the database"
+    visible:
+      and:
+        - should_setup_adb
+        - should_configure_adb_params
+  # adb_database_edition:
+  #   description: "The Oracle Database Edition that applies to the Autonomous database"
+  #   type: enum
+  #   enum:
+  #     - STANDARD_EDITION
+  #     - ENTERPRISE_EDITION
+  #   visible:
+  #     and:
+  #       - should_setup_adb
+  #       - should_configure_adb_params
+  adb_db_version:
+    description: "A valid Oracle database version for Autonomous database"
+    visible:
+      and:
+        - should_setup_adb
+        - should_configure_adb_params
+  adb_db_workload:
+    description: "The Autonomous database workload type"
+    type: enum
+    enum:
+      - OLTP
+      - DW
+      - AJD
+      - APEX
+    visible:
+      and:
+        - should_setup_adb
+        - should_configure_adb_params
+  adb_display_name:
+    visible:
+      and:
+        - should_setup_adb
+        - should_configure_adb_params
+  adb_is_auto_scaling_enabled:
+    visible:
+      and:
+        - should_setup_adb
+        - should_configure_adb_params
+  adb_is_auto_scaling_for_storage_enabled:
+    visible:
+      and:
+        - should_setup_adb
+        - should_configure_adb_params
+  adb_is_mtls_connection_required:
+    visible:
+      and:
+        - should_setup_adb
+        - should_configure_adb_params
+  adb_license_model:
+    type: enum
+    enum:
+      - LICENSE_INCLUDED
+      - BRING_YOUR_OWN_LICENSE
+    visible:
+      and:
+        - should_setup_adb
+        - should_configure_adb_params
+  adb_ocpu_count:
+    visible:
+      and:
+        - should_setup_adb
+        - should_configure_adb_params
+  adb_private_endpoint_label:
+    visible:
+      and:
+        - should_setup_adb
+        - should_configure_adb_params
+  adb_wallet_password:
+    visible:
+      and:
+        - should_setup_adb
+        - should_configure_adb_params
+  adb_wallet_generate_type:
+    visible:
+      and:
+        - should_setup_adb
+        - should_configure_adb_params
+  adb_wallet_is_regional:
+    visible:
+      and:
+        - should_setup_adb
+        - should_configure_adb_params
+
+  ############################
+  ####      PostgreSQL    ####
+  ############################
+  should_setup_postgresql:
+    type: boolean
+    title: "Should setup PostgreSQL?"
+    default: true
+    required: true
+    visible: true
+  should_configure_postgresql_params:
+    type: boolean
+    title: "Configure PostgreSQL parameters?"
+    description: "Configure various parameters for the PostgreSQL"
+    required: true
+    default: false
+    visible: should_setup_postgresql
+  db_system_db_version:
+    visible:
+      and:
+        - should_setup_postgresql
+        - should_configure_postgresql_params
+  db_system_display_name:
+    visible:
+      and:
+        - should_setup_postgresql
+        - should_configure_postgresql_params
+  db_system_shape:
+    visible:
+      and:
+        - should_setup_postgresql
+        - should_configure_postgresql_params
+  db_system_instance_count:
+    visible:
+      and:
+        - should_setup_postgresql
+        - should_configure_postgresql_params
+  db_system_instance_memory_size_in_gbs:
+    visible:
+      and:
+        - should_setup_postgresql
+        - should_configure_postgresql_params
+  db_system_instance_ocpu_count:
+    visible:
+      and:
+        - should_setup_postgresql
+        - should_configure_postgresql_params
+  db_system_storage_details_is_regionally_durable:
+    visible:
+      and:
+        - should_setup_postgresql
+        - should_configure_postgresql_params
+  db_system_credentials_password_details_password_type:
+    visible:
+      and:
+        - should_setup_postgresql
+        - should_configure_postgresql_params
+  db_system_credentials_password_details_password:
+    visible:
+      and:
+        - should_setup_postgresql
+        - should_configure_postgresql_params
+  db_system_credentials_username:
+    visible:
+      and:
+        - should_setup_postgresql
+        - should_configure_postgresql_params
+  db_system_storage_details_system_type:
+    visible:
+      and:
+        - should_setup_postgresql
+        - should_configure_postgresql_params
+
+  ############################
+  ####      NoSQL    ####
+  ############################
+  should_setup_nosql_table:
+    type: boolean
+    title: "Should setup NoSQL Table?"
+    default: true
+    required: true
+    visible: true
+  should_configure_nosql_table_params:
+    type: boolean
+    title: "Configure NoSQL Table parameters?"
+    description: "Configure various parameters for the NoSQL Table"
+    required: true
+    default: false
+    visible: should_setup_nosql_table
+  nosql_table_ddl_statement:
+    visible:
+      and:
+        - should_setup_nosql_table
+        - should_configure_nosql_table_params
+  nosql_table_name:
+    visible:
+      and:
+        - should_setup_nosql_table
+        - should_configure_nosql_table_params
+  nosql_table_is_auto_reclaimable:
+    visible:
+      and:
+        - should_setup_nosql_table
+        - should_configure_nosql_table_params
+  nosql_table_max_read_units:
+    visible:
+      and:
+        - should_setup_nosql_table
+        - should_configure_nosql_table_params
+  nosql_table_max_storage_in_gbs:
+    visible:
+      and:
+        - should_setup_nosql_table
+        - should_configure_nosql_table_params
+  nosql_table_max_write_units:
+    visible:
+      and:
+        - should_setup_nosql_table
+        - should_configure_nosql_table_params
+
+  ############################
+  ####     Opensearch     ####
+  ############################
+  should_setup_opensearch_cluster:
+    type: boolean
+    title: "Should setup Opensearch Cluster?"
+    default: true
+    required: true
+    visible: true
+  should_configure_opensearch_params:
+    type: boolean
+    title: "Configure Opensearch parameters?"
+    description: "Configure various parameters for the Opensearch"
+    required: true
+    default: false
+    visible: should_setup_opensearch_cluster
+  opensearch_cluster_software_version:
+    type: string
+    title: "Version of the Opensearch Cluster"
+    required: false
+    default: "2.3.0"
+    visible:
+      and:
+        - should_setup_opensearch_cluster
+        - should_configure_opensearch_params
+  opensearch_cluster_display_name:
+    type: string
+    title: "Name of the Opensearch Cluster"
+    required: false
+    default: "genaiagentopensearchcluster"
+    visible: false
+  opensearch_cluster_master_user:
+    type: string
+    title: "Opensearch master User name"
+    description: "Master User name to be configured for the Opensearch Cluster"
+    default: "osmaster"
+    required: true
+    visible:
+      and:
+        - should_setup_opensearch_cluster
+        - should_configure_opensearch_params
+  opensearch_cluster_master_password_hash:
+    type: string
+    title: "Opensearch master User password Hash"
+    description: "To generate this value, Download this jar oci-crypto-common-1.0.0-SNAPSHOT.jar from https://objectstorage.uk-london-1.oraclecloud.com/p/ZcVUX2JmCqwxgS9szgYfk1wyf7UwzxAHyXb2xwDFX5boKrd-JrvOnC7vzRttQxio/n/idee4xpu3dvm/b/os-ops-tools/o/oci-crypto-common-1.0.0-SNAPSHOT.jar. Then execute the command java -jar oci-crypto-common-1.0.0-SNAPSHOT.jar pbkdf2_stretch_1000 <password-in-plain-text>"
+    default: "pbkdf2_stretch_1000$4X9GUAifGwpc1gAdmFzzUR5ckuNRRYyI$Kq/AlpObnt2s8gfahTgYVyM0s2uzrPMqpELUXQZw8YQ="
+    required: true
+    visible:
+      and:
+        - should_setup_opensearch_cluster
+        - should_configure_opensearch_params
+  opensearch_cluster_master_password:
+    type: string
+    title: "Opensearch master User password"
+    description": "Opensearch master User password. This is the clear text version of opensearch_cluster_master_password_hash parameter"
+    default: "Osmaster@123"
+    required: true
+    sensitive: true
+    visible:
+      and:
+        - should_setup_opensearch_cluster
+        - should_configure_opensearch_params
+
+  ############################
+  ####      Redis         ####
+  ############################
+  should_setup_redis_cluster:
+    type: boolean
+    title: "Should setup Redis cluster?"
+    default: true
+    required: true
+    visible: true
+  should_configure_redis_params:
+    type: boolean
+    title: "Configure Redis parameters?"
+    description: "Configure various parameters for the Redis Cluster"
+    required: true
+    default: false
+    visible: should_setup_redis_cluster
+  redis_cluster_software_version:
+    type: string
+    title: "Version of the Redis Cluster"
+    required: false
+    default: "V7_0_5"
+    visible:
+      and:
+        - should_setup_redis_cluster
+        - should_configure_redis_params
+  redis_cluster_display_name:
+    type: string
+    title: "Name of the Redis Cluster"
+    required: false
+    default: "Redis-Cluster"
+    visible: false
+  redis_cluster_node_count:
+    type: string
+    title: "Node Count for Redis Cluster"
+    required: false
+    default: "2"
+    visible:
+      and:
+        - should_setup_redis_cluster
+        - should_configure_redis_params
+  redis_cluster_node_memory_in_gbs:
+    type: string
+    title: "Memory of Redis Node (GB)"
+    required: false
+    default: "4"
+    visible:
+      and:
+        - should_setup_redis_cluster
+        - should_configure_redis_params
+
+  ############################
+  #### Compute Instance #####
+  ############################
+  should_setup_vm:
+    type: boolean
+    title: "Should setup VM?"
+    default: true
+    required: true
+    visible: true
+  should_configure_compute_instance_params:
+    type: boolean
+    title: "Configure Compute Instance parameters?"
+    description: "Configure various parameters for the Management Instance"
+    required: true
+    default: false
+    visible: should_setup_vm
+  should_config_public_ip_for_vm:
+    type: boolean
+    title: "Should the VM be configured with public IP?"
+    description: "To directly ssh into the management instance, this should be selected"
+    default: true
+    required: true
+    visible:
+      and:
+        - should_configure_compute_instance_params
+        - should_setup_vm
+  vm_instance_name:
+    type: string
+    title: "Name of the Compute Instance"
+    default: "app-instance"
+    required: false
+    visible: false
+  availability_domain_name:
+    type: oci:identity:availabilitydomain:name
+    title: "Availability domain of Compute Instance"
+    description: "Name of the availability domain in which compute instance should be created"
+    required: false
+    default: ""
+    dependsOn:
+      compartmentId: ${existing_vcn_compartment}
+    visible:
+      and:
+        - should_configure_compute_instance_params
+        - should_setup_vm
+  node_shape:
+    type: string
+    title: "Shape of the Compute Instance"
+    required: false
+    default: "VM.Standard.E4.Flex"
+    visible:
+      and:
+        - should_configure_compute_instance_params
+        - should_setup_vm
+  node_flex_shape_ocpus:
+    type: integer
+    title: "CPU count for the Compute Instance"
+    required: false
+    default: 2
+    visible:
+      and:
+        - should_configure_compute_instance_params
+        - should_setup_vm
+  node_flex_shape_memory:
+    type: integer
+    title: "Memory for the Compute Instance"
+    required: false
+    default: 32
+    visible:
+      and:
+        - should_configure_compute_instance_params
+        - should_setup_vm
+  instance_os:
+    type: string
+    title: "OS for the Compute Instance"
+    required: false
+    default: "Oracle Linux"
+    visible: false
+  linux_os_version:
+    type: string
+    title: "OS version for the Compute Instance"
+    required: false
+    default: "9"
+    visible: false
+  ssh_public_key:
+    title: "SSH public key"
+    description: Public SSH key to be included in the ~/.ssh/authorized_keys file for the default user on the instance
+    type: oci:core:ssh:publickey
+    additionalProps:
+      allowMultiple: true
+    visible:
+      and:
+        - should_configure_compute_instance_params
+        - should_setup_vm
+    default: [""]
+    pattern: "((^(ssh-rsa AAAAB3NzaC1yc2|ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNT|ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzOD|ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1Mj|ssh-ed25519 AAAAC3NzaC1lZDI1NTE5|ssh-dss AAAAB3NzaC1kc3)[0-9A-Za-z+\/]+[=]{0,3})( [^,]*)?)(,((ssh-rsa AAAAB3NzaC1yc2|ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNT|ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzOD|ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1Mj|ssh-ed25519 AAAAC3NzaC1lZDI1NTE5|ssh-dss AAAAB3NzaC1kc3)[0-9A-Za-z+\/]+[=]{0,3})( [^,]*)?)*$"
+
+
+
+  ############################
+  #### Load Balancer  #####
+  ############################
+  should_setup_load_balancer:
+    type: boolean
+    title: "Should setup Load Balancer?"
+    default: true
+    required: true
+    visible: true
+  should_configure_load_balancer_params:
+    type: boolean
+    title: "Configure Load Balancer parameters?"
+    description: "Configure various parameters for the PostgreSQL"
+    required: true
+    default: false
+    visible: should_setup_load_balancer
+  load_balancer_display_name:
+    visible:
+      and:
+        - should_setup_load_balancer
+        - should_configure_load_balancer_params
+  load_balancer_shape:
+    visible:
+      and:
+        - should_setup_load_balancer
+        - should_configure_load_balancer_params
+  load_balancer_subnet_ids:
+    visible:
+      and:
+        - should_setup_load_balancer
+        - should_configure_load_balancer_params
+  load_balancer_is_private:
+    visible:
+      and:
+        - should_setup_load_balancer
+        - should_configure_load_balancer_params
+  load_balancer_network_security_group_ids:
+    visible:
+      and:
+        - should_setup_load_balancer
+        - should_configure_load_balancer_params
+  backend_set_health_checker_protocol:
+    visible:
+      and:
+        - should_setup_load_balancer
+        - should_configure_load_balancer_params
+  backend_set_health_checker_interval_ms:
+    visible:
+      and:
+        - should_setup_load_balancer
+        - should_configure_load_balancer_params
+  backend_set_health_checker_port:
+    visible:
+      and:
+        - should_setup_load_balancer
+        - should_configure_load_balancer_params
+  backend_set_health_checker_response_body_regex:
+    visible:
+      and:
+        - should_setup_load_balancer
+        - should_configure_load_balancer_params
+  backend_set_health_checker_retries:
+    visible:
+      and:
+        - should_setup_load_balancer
+        - should_configure_load_balancer_params
+  backend_set_health_checker_return_code:
+    visible:
+      and:
+        - should_setup_load_balancer
+        - should_configure_load_balancer_params
+  backend_set_health_checker_timeout_in_millis:
+    visible:
+      and:
+        - should_setup_load_balancer
+        - should_configure_load_balancer_params
+  backend_set_health_checker_url_path:
+    visible:
+      and:
+        - should_setup_load_balancer
+        - should_configure_load_balancer_params
+  backend_set_name:
+    visible:
+      and:
+        - should_setup_load_balancer
+        - should_configure_load_balancer_params
+  backend_set_policy:
+    visible:
+      and:
+        - should_setup_load_balancer
+        - should_configure_load_balancer_params
+  pg_port:
+    visible:
+      and:
+        - should_setup_load_balancer
+        - should_configure_load_balancer_params
+
+############################
+####     OUTPUT
+############################
+outputGroups:
+  - title: "Compute Instance"
+    outputs:
+      - service_vm_public_ip
+      - service_vm_private_ip
+  - title: "Opensearch"
+    outputs:
+      - opensearch_api_private_ip
+      - opensearch_dashboard_private_ip
+      - opensearch_api_endpoint
+      - opensearch_dashboards_api_endpoint
+  - title: "Redis"
+    outputs:
+      - redis_primay_endpoint
+      - redis_primay_endpoint_ip

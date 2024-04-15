@@ -1,0 +1,1 @@
+nohup ./apache-jmeter-5.6.2/bin/jmeter -n -t /home/opc/test-plan-single.jmx -l /home/opc/test/test-result.csv -e -o /home/opc/test/output/ > /home/opc/test/out.out 2>&1 &

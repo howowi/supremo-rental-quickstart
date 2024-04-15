@@ -1,0 +1,6 @@
+dependencies:
+- name: oci-onm-common
+  repository: file://../common
+  version: 3.0.2
+digest: sha256:da10adb178faa1549a780a3a20403e963c93c396a33763b4b0465463621b6e4f
+generated: "2023-08-07T21:02:04.418549+05:30"

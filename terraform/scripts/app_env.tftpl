@@ -1,0 +1,42 @@
+#!/bin/bash
+
+TENANCY="${tenancy_ocid}"
+REGION="${region}"
+USER_OCID="${user_ocid}"
+FINGERPRINT="${fingerprint}"
+
+# The following locations are constants, don't change them. Instead, put the relevant 
+# files to the CORRECT location.
+API_KEY_FILE="/home/opc/.oci/car_demo.pem"
+AJD_WALLET_FILE_LOCATION="/home/opc/wallet/adb_wallet.zip"
+NGINX_CONFIG_FILE="/home/opc/nginx.conf"
+APP_ENV_CONFIG_FILE="/home/opc/app.env"
+
+# PG_HOST: It is the endpoint of the PG cluster, e.g. PgPool endpoint Or Network LoadBalancer endpoint.
+PG_HOST="${pg_load_balancer_ip}"
+# PG_ENDPOINT: It is the PG service endpoint which you can find from the OCI console.
+PG_ENDPOINT="${pg_primary_endpoint.ip_address}"
+PG_ADMIN_USER="${pg_username}"
+PG_ADMIN_PASSWORD="${pg_password}"
+
+AJD_ADMIN_USER="admin"
+AJD_ADMIN_PASSWORD="${adb_admin_password}"
+AJD_TNS_NAME="${adb_db_name}_medium"
+
+REDIS_HOST="${redis_primay_endpoint}"
+NOSQL_REGION="${region}"
+NOSQL_COMPARTMENT="${compartment_ocid}"
+
+##########################################################################################
+# You don't need to change the follwoing items unless you well know what your are doing. #
+##########################################################################################
+AJD_USER="ouser"
+AJD_PASSWORD="BotWelcome123##"
+PG_DBNAME="poc_car"
+PG_USER="ouser"
+PG_PASSWORD="BotWelcome123##"
+NGINX_CONFIG_FILE="./nginx-conf/nginx.conf"
+APP_ENV_CONFIG_FILE="./values.auto.tfvars"
+DB_INIT_SCRIPTS="./db-init"
+PG_PORT=5432
+REDIS_PORT=6379

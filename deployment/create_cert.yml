@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: supremo-cert
+spec:
+  commonName: supremorentals.oracledemo.online
+  dnsNames:
+    - supremorentals.oracledemo.online
+  issuerRef:
+    name: letsencrypt-staging
+  secretName: supremo-cert

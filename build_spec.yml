@@ -1,0 +1,49 @@
+version: 0.1
+component: build
+timeoutInSeconds: 10000
+runAs: root
+shell: bash
+env:
+  exportedVariables:
+    - BUILDRUN_HASH
+  vaultVariables:
+    OCIRCRED: "ocid1.vaultsecret.oc1.ap-mumbai-1.amaaaaaay5l3z3ya5lhftmbyvlujngyqwjpmxwalaulw3feydkbdj53f5eeq"
+
+steps:
+  - type: Command
+    name: "Export BUILDRUN_HASH as variable"
+    timeoutInSeconds: 40
+    command: |
+      export BUILDRUN_HASH=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-7`
+      echo "BUILDRUN_HASH: " $BUILDRUN_HASH
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failed to obtain BUILDRUN_HASH"
+        timeoutInSeconds: 400
+        runAs: root
+
+  - type: Command
+    name: "Build Docker image for React Frontend"
+    command: |
+      docker build -t bom.ocir.io/apaccpt01/frontend/react-supremo:${BUILDRUN_HASH} frontend/.
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failed to build Docker container for React Frontend"
+        timeoutInSeconds: 400
+        runAs: root
+
+  - type: Command
+    name: "Push React Frontend Docker Image to OCIR"
+    command: |
+      echo "Login to OCIR"
+      docker login bom.ocir.io -u apaccpt01/oracleidentitycloudservice/howie.owi@oracle.com -p ${OCIRCRED}
+      echo "Push React Frontend image to OCIR"
+      docker push bom.ocir.io/apaccpt01/frontend/react-supremo:${BUILDRUN_HASH}
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failed to push images $BUILDRUN_HASH to OCIR"
+        timeoutInSeconds: 400
+        runAs: root

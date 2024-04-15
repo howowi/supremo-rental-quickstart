@@ -1,0 +1,682 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.bs-example{
+  height: 600px;
+  overflow: hidden;
+}
+
+.ftco-degree-bg{
+  background-image: url('images/bg_1.jpg');
+}
+.navbar-brand span {
+  color: #01d28e;
+}
+
+.ftco-section1 {
+  padding: 10em 0 6em 0 !important;
+  position: relative;
+}
+.ftco-section2 {
+  padding: 0 0 4rem 0;
+}
+.ftco-loginsection1 {
+  padding: 15em 0 6em 0 !important;
+  position: relative;
+}
+
+.valueWhiteTxt {
+  color: #FFF;
+  clear: both;
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 22px;
+}
+.labelWhiteText {
+  color: #1a4673;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.labelWhiteTextLabel {
+  color: #1a4673;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  display: block;
+}
+.valueWLoginTxt {
+  color: #1a4673;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.setenceCase{
+  text-transform: capitalize;
+}
+
+.priceTxt {
+  font-size: 2rem;
+  color: #fff;
+  /* width: 190px !important; */
+  text-align: center;
+  /* height: 190px; */
+  /* border-radius: 50%; */
+  background-color: #28b6b1;
+  /* padding: 10px; */
+  /* margin: 30px auto auto auto; */
+}
+.priceTxt span {
+  font-size: 1rem;
+}
+.priceTxt .currencyB {
+  font-size: 1.8rem;
+  color: #1a4673;
+  padding-right: 5px;
+}
+
+.cardetailsForm {
+  padding-top: 0;
+  box-shadow: none !important;
+}
+
+.cardetailsForm h2 {
+  font-size: 2rem;
+  font-weight: 400;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #FFF;
+  margin-bottom: 20px;
+}
+
+.carBigImage .services-wrap {
+  padding-top: 60px;
+}
+
+.carBigImage h3 {
+  padding-bottom: 15px;
+  border-bottom: 1px solid #0e89ff;
+}
+.checkZindex{
+  position: relative !important;
+}
+.detailPgCarImg {
+  height: 300px;
+  background-size: 80% !important;
+  margin-top: -30px;
+}
+.detailPgCarImg-200 {
+  height: 200px;
+  background-size: 80% !important;
+  margin-top: -30px;
+}
+
+.loginPgCarImg{
+  height: 400px;
+  margin-top: -30px;
+}
+
+.searchTxtOuter .searchTxt, .searchTxtOuter .form-control{
+  border: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    height: 40px !important;
+    background: white !important;
+    color: rgb(14 137 255) !important;
+    font-size: 1.2rem;
+    border-radius: 0px;
+    box-shadow: none !important;
+}
+
+*::-ms-input-placeholder { /* Edge 12-18 */
+  color: #b2b2b2 !important;
+}
+
+*::placeholder {
+  color: #b2b2b2 !important;
+}
+
+.dropdownSearch {
+  border: 1px solid #ddd;
+    display: block;
+    clear: both;
+    width: 67.6%;
+    position: absolute;
+    height: 200px;
+    background-color: #FFF;
+    margin-top: -46px;
+    margin-left: 33px;
+    z-index: 1;
+    overflow: hidden;
+    overflow-y: auto;
+    text-align: left;
+    padding: 10px 15px;
+}
+.dropdownSearch:empty{
+ border: 0px solid #fff;
+ background-color: transparent;
+ display: none;
+}
+.carlist{
+  background-size: 75% !important;
+}
+
+.mn-ht-details{
+  min-height: 60px;
+}
+
+
+.ribbon {
+  position: absolute;
+  right: var(--right, 30px);
+  top: var(--top, -3px);
+  filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.5));
+  z-index: 2;
+}
+.ribbon > .content {
+  color: white;
+  font-size: 1.25rem;
+  text-align: center;
+  font-weight: 400;
+  background: var(--color, #2ca7d8) linear-gradient(45deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.25) 100%);
+  padding: 8px 2px 4px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 100%, 0 100%);
+  width: var(--width, 32px);
+  min-height: var(--height, 36px);
+  transition: clip-path 1s, padding 1s, background 1s;
+}
+.ribbon.slant-up > .content {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), 50% calc(100% - 6px), 0 100%);
+}
+.ribbon.slant-down > .content {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 6px), 0 calc(100% - 12px));
+}
+.ribbon.down > .content {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), 50% 100%, 0 calc(100% - 8px));
+}
+.ribbon.up > .content {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 8px), 0 100%);
+}
+.ribbon.check > .content {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), 40% 100%, 0 calc(100% - 12px));
+}
+.proceed-wrap {
+  margin-bottom: -50px;
+  display: block;
+  position: relative;
+}
+.backBtn-wrap {
+  margin-top: 20px;
+  padding: 0 0 20px 0;
+}
+.carListSection {
+  margin-top: -10em;
+}
+.card.shadow-sm{
+  -webkit-transition: box-shadow .3s ease-out;
+  -moz-transition: box-shadow .3s ease-out;
+  -o-transition: box-shadow .3s ease-out;
+  transition: box-shadow .3s ease-out;
+  cursor: pointer;
+}
+.card.shadow-sm:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+.dropdown-menu[data-bs-popper] {
+  top: 100%;
+  left: -90px !important;
+}
+.otherSectionOuter {
+  background-color: #FFF;
+  display: block;
+}
+.otherSectionOuter h3 {
+  border-bottom: 1px solid #1089ff;
+  font-size: 1.4rem;
+}
+
+.rdOnlyValue {
+  color: #1089ff;
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin-bottom: 15px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.topNavIconSignOut {
+  background-color: transparent;
+  border: navajowhite;
+  padding: 5px;
+  margin: 0 10px;
+  font-size: 1.3rem;
+  color: #00d28e;
+}
+
+.react-datepicker__input-container input[type="text"] {
+  width: 90%;
+}
+
+.valueWhiteTxt input[type="text"]:read-only {
+  background-color: transparent;
+  border: navajowhite;
+  color: #fff;
+  width: 90%;
+}
+
+.table {
+  min-width: 100% !important;
+  width: auto;
+}
+
+.carModel-Popup {
+  margin: 10px auto;
+  text-align: center;
+  color: #1089ff;
+  font-weight: 500;
+}
+
+.modal.show .modal-dialog {
+  transform: none;
+  max-width: 50%;
+  max-height: 70vh;
+  height: 70vh;
+}
+.services-wrap1 {
+  padding: 4em 1em 2em 1em;
+  background: #fff;
+  box-shadow: 0px 5px 12px -1px rgba(0, 0, 0, 0.03);
+}
+.servicesBookings-wrap1 {
+  padding: 2em 1em 2em 1em;
+  background: #fff;
+  box-shadow: 0px 5px 12px -1px rgba(0, 0, 0, 0.03);
+}
+.carHealthBody label.valueWhiteTxt.setenceCase {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.carHealthBody label.labelWhiteText {
+  font-size: .9rem;
+  margin-bottom: 0;
+}
+.noOfOrder {
+  background-color: #ae0000;
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  padding: 3px;
+  text-align: center;
+  border-radius: 50%;
+  color: #FFF;
+  font-size: .8rem;
+  line-height: 20px;
+  position: relative;
+}
+.askMeTxt {
+  font-size: 1.3rem;
+  color: #fff;
+  font-weight: 500;
+}
+.ftco-section-askme {
+  margin-top: 12em;
+}
+.askme-request-form {
+  padding: 20px 20px 5px 20px;
+}
+.result-card {
+  /* background-color: #f7f7f7; */
+  padding: 10px 20px;
+}
+.result-card:nth-child( odd ) {
+  background-color: #f7f7f7;
+}
+.result-card p {
+  margin-bottom: 0px !important;
+}
+.bookedDate {
+  display: block;
+  font-size: .9rem;
+  font-weight: 500;
+  padding: 5px 0;
+}
+.bookingLabel {
+  background-color: #e3e3e3;
+  padding: 5px 10px;
+  height: 33px;
+  font-size: .8rem;
+}
+.custompadding{
+  padding: 0;
+}
+/* .expandedRow{
+  transition: all 3s ease-in-out;
+} */
+
+tr {
+  transition: height 10s ease-in-out;
+  overflow: hidden;
+  height: 40px; /* Set the initial height of each row */
+}
+
+tr.expanded {
+  height: auto; /* Set the height to 'auto' for the expanded row */
+}
+.opensearchico {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+}
+.opensearchico svg {
+  height: 25px;
+  width: 20px;
+}
+
+.forMoreInfodialogBtn, 
+.forMoreInfodialogBtn:hover, 
+.forMoreInfodialogBtn:visited, 
+.forMoreInfodialogBtn:focus {
+  background-color: #f0e860 !important;
+  position: absolute;
+  margin-bottom: -40px;
+  display: block;
+  z-index: 123;
+  cursor: pointer;
+}
+.forNoSQLdialogBtn,
+.forNoSQLdialogBtn:hover,
+.forNoSQLdialogBtn:focus,
+.forNoSQLdialogBtn:visited{
+  background-color: #f0e860 !important;
+  z-index: 123;
+  cursor: pointer;
+}
+.container-floatingbtn {
+  width: -moz-fit-content;
+  width: 150px;
+  display: flex;
+  /* justify-content: center; */
+  padding: 10px;
+  position: absolute;
+  right: 0;
+  top: 100px;
+}
+
+#toggle {
+  -webkit-appearance: none;
+}
+
+.button {
+  position: absolute;
+  z-index: 999;
+  width: 43px;
+  height: 43px;
+  background: #af0000;
+  border-radius: 100%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  right: 3px;
+}
+/* .button:before {
+  position: absolute;
+  content: "";
+  width: 20px;
+  height: 2px;
+  background: #fff;
+  transform: rotate(90deg);
+  transition: all 0.4s ease;
+}
+.button:after {
+  position: absolute;
+  content: "";
+  width: 20px;
+  height: 2px;
+  background: #fff;
+  transition: all 0.4s ease;
+} */
+
+.nav {
+  opacity: 0;
+  transition: all 0.4s ease-in-out;
+  background: #062142;
+  width: 150px;
+  border-radius: 5px;
+  transform: translateY(0%);
+  box-shadow: 2px 3px 10px 0 rgba(81, 81, 81, 0.1);
+  border: 1px solid #e4e4e4;
+  padding: 20px 10px 10px 10px;
+  z-index: 998;
+}
+.nav ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.nav a {
+  text-align: right;
+  margin: 5px 5px 5px 15px;
+  color: #4fd38e;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 14px;
+}
+.nav a:hover {
+  color: #f0e860;
+}
+
+#toggle:checked ~ .nav {
+  opacity: 1;
+  transform: translateY(10%);
+}
+
+#toggle:checked ~ .button:before {
+  transform: rotate(225deg);
+}
+
+#toggle:checked ~ .button:after {
+  transform: rotate(135deg);
+}
+
+@media (max-width: 640px) {
+  .container {
+    width: 100%;
+  }
+}
+
+.postgresqlbtn {
+  position: absolute;
+  right: 30px;
+  top: 18px;
+}
+.postgresqlbtn1 {
+  position: absolute;
+  right: 30px;
+  top: -10px;
+}
+.redislbtn1 {
+  position: absolute;
+  right: 190px;
+  top: -10px;
+}
+.redislbtn2 {
+  position: absolute;
+  right: 155px;
+  top: 6px;
+}
+.ajsonbtn1 {
+  position: absolute;
+  right: 30px;
+  top: 6px;
+}
+.request-form {
+  padding: 30px 30px 0 30px !important;
+}
+.labelWhiteText {
+  display: block;
+  margin-bottom: 0;
+}
+.emptyArea {
+  display: block;
+  height: 60px;
+}
+/* 
+.foridea_bulb_Btn {
+  position: absolute;
+  right: -8px;
+  display: block !important;
+  background-color: #f1e861 !important;
+  top: 72px;
+  border-radius: 10px 0 0 10px !important;
+  z-index: 1000;
+} */
+.foridea_bulb_Btn {
+  position: absolute;
+  right: -8px;
+  display: block !important;
+  background-color: #f1e861 !important;
+  top: 17px;
+  border-radius: 10px 0 0 10px !important;
+  z-index: 1000;
+}
+.ftco-section-askme .services-wrap1 .container .row {
+  min-height: 150px;
+  display: block;
+}
+.foridea_bulb_Btn img {
+  height: 25px;
+}
+.askMeImgModal.show .modal-dialog {
+  width: 67%;
+  max-width: 70%;
+}
+
+.imgModal.show .modal-dialog, .userDetailsPop.show .modal-dialog , .vehDetailsPop.show .modal-dialog {
+  width: 70%;
+  max-width: 70%;
+}
+.carHealthBody img {
+  margin: auto;
+  display: block;
+}
+.postgresqlideabtn img {
+  height: 25px;
+}
+.postgresqlideabtn {
+  position: absolute;
+  right: 0px;
+  display: block !important;
+  background-color: #f1e861 !important;
+  top: 12px;
+  border-radius: 10px 0 0 10px !important;
+  z-index: 1000;
+}
+.forNoSQLIdeadialogBtn img, .redislbtn1 img, .ajsonbtn1 img {
+  height: 25px;
+}
+.forNoSQLIdeadialogBtn{
+  position: absolute;
+  top: 10px;
+  right: 0px;
+  display: block !important;
+  background-color: #f1e861 !important;
+  
+  border-radius: 10px 0 0 10px !important;
+  z-index: 1000;
+}
+.redislbtn1 {
+  position: absolute;
+  right: -15px;
+  display: block !important;
+  background-color: #f1e861 !important;
+  top: -20px;
+  border-radius: 10px 0 0 10px !important;
+  z-index: 1000;
+}
+
+.ajsonbtn1 {
+  position: absolute;
+  right: 0px;
+  display: block !important;
+  background-color: #f1e861 !important;
+  top: 5px;
+  border-radius: 10px 0 0 10px !important;
+  z-index: 1000;
+}
+
+.userDetails h3 {
+  color: #FFF;
+  border-bottom: 1px solid #FFF;
+}
+.userDetails {
+  background-color: #1089ff !important;
+  color: #c7c7c7;
+  padding-top: 30px;
+}
+.userDetails .rdOnlyValue {
+  color: #fff;
+}
+.services-wrap2 {
+  padding: 1em 1em 2em 1em;
+  background: #fff;
+  box-shadow: 0px 5px 12px -1px rgba(0, 0, 0, 0.03);
+  margin-top: 70px;
+}
+.userdetailImg-200 {
+  width: 150px;
+  height: 150px;
+  background-size: 100% !important;
+  background-color: #ffffff89;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  color: #495057;
+  background-color: #fff;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.carHealthBody img {
+  width: 100%;
+}
