@@ -52,6 +52,15 @@ kubectl get secrets -n supremo
 
 3. Copy and paste the content of deployment_supremo_frontend.yml to the artifact.
 
-#### Run Github Action
+#### Update Code and Run Github Action
 
-1. 
+1. Search for `<backend_ip>` across all the files in this repository and update it with the IP address of the backend server.
+
+2. Commit and push the changes to Github.
+
+3. Observe that Github Action will be triggered and OCI Deployment Pipeline will deploy Supremo frontend to OKE cluster.
+
+4. After deployment is completed, validate that the Supremo app is accessible. Get the public IP of the load balancer by running the command below:
+```
+kubectl get svc -n supremo
+```
