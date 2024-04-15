@@ -29,7 +29,7 @@ const TopNavBarN = ({ onLogout, userJsonVal, bookingCount, clearFilters }) => {
       setUserID(userId);
       console.log('Fetching data for user ID:', userJsonVal.userid);
 
-      fetch(`http://api-supremo.oracledemo.online/order-service/user-orders?userid=${userId}`)
+      fetch(`http://<backend_ip>/order-service/user-orders?userid=${userId}`)
         .then((response) => response.json())
         .then((data) => {
           console.log("Data from server:", data.length);
@@ -47,7 +47,7 @@ const TopNavBarN = ({ onLogout, userJsonVal, bookingCount, clearFilters }) => {
       setUserID(userId);
       console.log('Fetching data for user ID: > ', userId);
 
-      fetch(`http://api-supremo.oracledemo.online/order-service/user-orders?userid=${userId}`)
+      fetch(`http://<backend_ip>/order-service/user-orders?userid=${userId}`)
         .then((response) => response.json())
         .then((data) => {
           console.log("Data from server:>> ", data);

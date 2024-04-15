@@ -13,10 +13,10 @@ jobs:
       OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
       OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
       OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
-      REACT_APP_CARLIST_URL: http://api-supremo.oracledemo.online/car-service-redis/cars
-      REACT_APP_CARAPP_LOGINAUTH_URL: http://api-supremo.oracledemo.online/user-service-redis/authn
-      REACT_APP_GET_USER_BY_ID: http://api-supremo.oracledemo.online/user-service-redis/users/
-      REACT_APP_CREATE_ORDER_API: http://api-supremo.oracledemo.online/order-service/create-order
+      REACT_APP_CARLIST_URL: http://<backend_ip>/car-service-redis/cars
+      REACT_APP_CARAPP_LOGINAUTH_URL: http://<backend_ip>/user-service-redis/authn
+      REACT_APP_GET_USER_BY_ID: http://<backend_ip>/user-service-redis/users/
+      REACT_APP_CREATE_ORDER_API: http://<backend_ip>/order-service/create-order
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
