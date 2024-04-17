@@ -1,6 +1,6 @@
 # Creates PostgreSQL DbSystem
 resource "oci_psql_db_system" "pg_db_system" {
-  depends_on = [oci_identity_policy.postgresql_policy[0]]
+  #depends_on = [oci_identity_policy.postgresql_policy[0]]
 
   count = var.should_setup_postgresql ? 1 : 0
   #Required

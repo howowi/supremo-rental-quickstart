@@ -76,3 +76,27 @@ output "api_demos" {
     car_health         = "http://${local.ip_address}/car-health/cars/t001"
   }
 }
+
+output "endpoint_of_car_service_redis" {
+  value = "http://${local.ip_address}/car-service-redis/cars"
+}
+
+output "car_service" {
+  value = "http://${local.ip_address}/car-service/cars"
+}
+
+output "user_service_redis" {
+  value = "http://${local.ip_address}/user-service-redis/users"
+}
+
+output "user_service" {
+  value = "http://${local.ip_address}/user-service/users"
+}
+
+output "order_search" {
+  value = "http://${local.ip_address}/order-service/orders"
+}
+
+output "car_health" {
+  value = "http://${local.ip_address}/car-health/cars/t001"
+}

@@ -83,7 +83,8 @@ resource "oci_core_security_list" "public_security_list_ssh" {
 }
 
 resource "oci_core_security_list" "opensearch_security_list" {
-  count          = local.should_config_opensearch_private_subnet ? 1 : 0
+  #count          = local.should_config_opensearch_private_subnet ? 1 : 0
+  count          = local.should_config_shared_private_subnet ? 1 : 0
   compartment_id = var.compartment_ocid
   display_name   = "Opensearch Security List"
   vcn_id         = oci_core_vcn.opensearch_redis_vcn[count.index].id
@@ -124,7 +125,8 @@ resource "oci_core_security_list" "opensearch_security_list" {
 
 
 resource "oci_core_security_list" "redis_security_list" {
-  count          = local.should_config_redis_private_subnet ? 1 : 0
+  #count          = local.should_config_redis_private_subnet ? 1 : 0
+  count          = local.should_config_shared_private_subnet ? 1 : 0
   compartment_id = var.compartment_ocid
   display_name   = "Redis Security List"
   vcn_id         = oci_core_vcn.opensearch_redis_vcn[count.index].id
@@ -195,21 +197,21 @@ resource "oci_core_security_list" "app_security_list" {
   }
 }
 
-# Added to avoid redis service adding this security list. If Redis service adds this, destroy stack fails
-resource "oci_core_security_list" "redis_service_security_list" {
-  count          = !local.should_use_existing_network && var.should_setup_redis_cluster ? 1 : 0
-  compartment_id = var.compartment_ocid
-  display_name   = "redis-security-list"
-  vcn_id         = oci_core_vcn.opensearch_redis_vcn[count.index].id
-  ingress_security_rules {
-    tcp_options {
-      max = 6379
-      min = 6379
-    }
-    protocol = "6"
-    source   = local.should_config_redis_private_subnet ? cidrsubnet(var.vcn_cidr, 8, 2) : cidrsubnet(var.vcn_cidr, 8, 3)
-  }
-}
+# # Added to avoid redis service adding this security list. If Redis service adds this, destroy stack fails
+# resource "oci_core_security_list" "redis_service_security_list" {
+#   count          = !local.should_use_existing_network && var.should_setup_redis_cluster ? 1 : 0
+#   compartment_id = var.compartment_ocid
+#   display_name   = "redis-security-list"
+#   vcn_id         = oci_core_vcn.opensearch_redis_vcn[count.index].id
+#   ingress_security_rules {
+#     tcp_options {
+#       max = 6379
+#       min = 6379
+#     }
+#     protocol = "6"
+#     source   = local.should_config_redis_private_subnet ? cidrsubnet(var.vcn_cidr, 8, 2) : cidrsubnet(var.vcn_cidr, 8, 3)
+#   }
+# }
 
 resource "oci_core_security_list" "opensearch_redis_security_list" {
   count          = local.should_config_shared_private_subnet ? 1 : 0
@@ -280,34 +282,34 @@ resource "oci_core_subnet" "vm_public_subnet" {
   dns_label                  = "opensearchpub"
 }
 
-resource "oci_core_subnet" "opensearch_private_subnet" {
-  count                      = local.should_config_opensearch_private_subnet ? 1 : 0
-  cidr_block                 = cidrsubnet(var.vcn_cidr, 8, 1)
-  display_name               = "opensearch-private-subnet"
-  compartment_id             = var.compartment_ocid
-  vcn_id                     = oci_core_vcn.opensearch_redis_vcn[count.index].id
-  route_table_id             = oci_core_route_table.private_route_table[count.index].id
-  security_list_ids          = [oci_core_security_list.opensearch_security_list[count.index].id]
-  dhcp_options_id            = oci_core_vcn.opensearch_redis_vcn[count.index].default_dhcp_options_id
-  prohibit_public_ip_on_vnic = true
-  dns_label                  = "opensearchpriv"
-}
+# resource "oci_core_subnet" "opensearch_private_subnet" {
+#   count                      = local.should_config_opensearch_private_subnet ? 1 : 0
+#   cidr_block                 = cidrsubnet(var.vcn_cidr, 8, 1)
+#   display_name               = "opensearch-private-subnet"
+#   compartment_id             = var.compartment_ocid
+#   vcn_id                     = oci_core_vcn.opensearch_redis_vcn[count.index].id
+#   route_table_id             = oci_core_route_table.private_route_table[count.index].id
+#   security_list_ids          = [oci_core_security_list.opensearch_security_list[count.index].id]
+#   dhcp_options_id            = oci_core_vcn.opensearch_redis_vcn[count.index].default_dhcp_options_id
+#   prohibit_public_ip_on_vnic = true
+#   dns_label                  = "opensearchpriv"
+# }
 
-resource "oci_core_subnet" "redis_private_subnet" {
-  count          = local.should_config_redis_private_subnet ? 1 : 0
-  cidr_block     = cidrsubnet(var.vcn_cidr, 8, 2)
-  display_name   = "redis-private-subnet"
-  compartment_id = var.compartment_ocid
-  vcn_id         = oci_core_vcn.opensearch_redis_vcn[count.index].id
-  route_table_id = oci_core_route_table.private_route_table[count.index].id
-  security_list_ids = [
-    oci_core_security_list.redis_security_list[count.index].id,
-    oci_core_security_list.redis_service_security_list[count.index].id
-  ]
-  dhcp_options_id            = oci_core_vcn.opensearch_redis_vcn[count.index].default_dhcp_options_id
-  prohibit_public_ip_on_vnic = true
-  dns_label                  = "redispriv"
-}
+# resource "oci_core_subnet" "redis_private_subnet" {
+#   count          = local.should_config_redis_private_subnet ? 1 : 0
+#   cidr_block     = cidrsubnet(var.vcn_cidr, 8, 2)
+#   display_name   = "redis-private-subnet"
+#   compartment_id = var.compartment_ocid
+#   vcn_id         = oci_core_vcn.opensearch_redis_vcn[count.index].id
+#   route_table_id = oci_core_route_table.private_route_table[count.index].id
+#   security_list_ids = [
+#     oci_core_security_list.redis_security_list[count.index].id,
+#     oci_core_security_list.redis_service_security_list[count.index].id
+#   ]
+#   dhcp_options_id            = oci_core_vcn.opensearch_redis_vcn[count.index].default_dhcp_options_id
+#   prohibit_public_ip_on_vnic = true
+#   dns_label                  = "redispriv"
+# }
 
 resource "oci_core_subnet" "shared_private_subnet" {
   count          = local.should_config_shared_private_subnet ? 1 : 0
@@ -318,7 +320,7 @@ resource "oci_core_subnet" "shared_private_subnet" {
   route_table_id = oci_core_route_table.private_route_table[count.index].id
   security_list_ids = [
     oci_core_security_list.opensearch_redis_security_list[count.index].id,
-    oci_core_security_list.redis_service_security_list[count.index].id,
+    #oci_core_security_list.redis_service_security_list[count.index].id,
     oci_core_security_list.app_security_list[count.index].id
   ]
   dhcp_options_id            = oci_core_vcn.opensearch_redis_vcn[count.index].default_dhcp_options_id

@@ -1,5 +1,5 @@
 resource "oci_redis_redis_cluster" "dedicated_redis_cluster" {
-  depends_on = [oci_core_security_list.redis_service_security_list]
+  depends_on = [oci_core_security_list.opensearch_redis_security_list]
 
   count              = var.should_setup_redis_cluster ? 1 : 0
   compartment_id     = var.compartment_ocid

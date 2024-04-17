@@ -7,7 +7,7 @@ schemaVersion: 1.1.0
 version: "2.1"
 locale: "en"
 variableGroups:
-  - title: "Core"
+  - title: "Identity"
     variables:
       - region
       - tenancy_ocid
@@ -256,6 +256,7 @@ variables:
         - ${network_creation_strategy}
         - USE_EXISTING_VCN_SUBNET
 
+
   ############################
   #### Autonomous Database ###
   ############################
@@ -319,64 +320,37 @@ variables:
       - DW
       - AJD
       - APEX
-    visible:
-      and:
-        - should_setup_adb
-        - should_configure_adb_params
+    visible: false
   adb_display_name:
-    visible:
-      and:
-        - should_setup_adb
-        - should_configure_adb_params
+    visible: false
   adb_is_auto_scaling_enabled:
-    visible:
-      and:
-        - should_setup_adb
-        - should_configure_adb_params
+    visible: false
   adb_is_auto_scaling_for_storage_enabled:
-    visible:
-      and:
-        - should_setup_adb
-        - should_configure_adb_params
+    visible: false
   adb_is_mtls_connection_required:
-    visible:
-      and:
-        - should_setup_adb
-        - should_configure_adb_params
+    visible: false
   adb_license_model:
     type: enum
     enum:
       - LICENSE_INCLUDED
       - BRING_YOUR_OWN_LICENSE
-    visible:
-      and:
-        - should_setup_adb
-        - should_configure_adb_params
+    visible: false
   adb_ocpu_count:
     visible:
       and:
         - should_setup_adb
         - should_configure_adb_params
   adb_private_endpoint_label:
-    visible:
-      and:
-        - should_setup_adb
-        - should_configure_adb_params
+    visible: false
   adb_wallet_password:
     visible:
       and:
         - should_setup_adb
         - should_configure_adb_params
   adb_wallet_generate_type:
-    visible:
-      and:
-        - should_setup_adb
-        - should_configure_adb_params
+    visible: false
   adb_wallet_is_regional:
-    visible:
-      and:
-        - should_setup_adb
-        - should_configure_adb_params
+    visible: false
 
   ############################
   ####      PostgreSQL    ####
@@ -425,15 +399,9 @@ variables:
         - should_setup_postgresql
         - should_configure_postgresql_params
   db_system_storage_details_is_regionally_durable:
-    visible:
-      and:
-        - should_setup_postgresql
-        - should_configure_postgresql_params
+    visible: false
   db_system_credentials_password_details_password_type:
-    visible:
-      and:
-        - should_setup_postgresql
-        - should_configure_postgresql_params
+    visible: false
   db_system_credentials_password_details_password:
     visible:
       and:
@@ -445,10 +413,8 @@ variables:
         - should_setup_postgresql
         - should_configure_postgresql_params
   db_system_storage_details_system_type:
-    visible:
-      and:
-        - should_setup_postgresql
-        - should_configure_postgresql_params
+    visible: false
+
 
   ############################
   ####      NoSQL    ####
@@ -477,25 +443,14 @@ variables:
         - should_setup_nosql_table
         - should_configure_nosql_table_params
   nosql_table_is_auto_reclaimable:
-    visible:
-      and:
-        - should_setup_nosql_table
-        - should_configure_nosql_table_params
+    visible: false
   nosql_table_max_read_units:
-    visible:
-      and:
-        - should_setup_nosql_table
-        - should_configure_nosql_table_params
+    visible: false
   nosql_table_max_storage_in_gbs:
-    visible:
-      and:
-        - should_setup_nosql_table
-        - should_configure_nosql_table_params
+    visible: false
   nosql_table_max_write_units:
-    visible:
-      and:
-        - should_setup_nosql_table
-        - should_configure_nosql_table_params
+    visible: false
+
 
   ############################
   ####     Opensearch     ####
@@ -560,6 +515,7 @@ variables:
         - should_setup_opensearch_cluster
         - should_configure_opensearch_params
 
+
   ############################
   ####      Redis         ####
   ############################
@@ -610,6 +566,7 @@ variables:
         - should_setup_redis_cluster
         - should_configure_redis_params
 
+
   ############################
   #### Compute Instance #####
   ############################
@@ -650,10 +607,7 @@ variables:
     default: ""
     dependsOn:
       compartmentId: ${existing_vcn_compartment}
-    visible:
-      and:
-        - should_configure_compute_instance_params
-        - should_setup_vm
+    visible: false
   node_shape:
     type: string
     title: "Shape of the Compute Instance"
@@ -707,7 +661,6 @@ variables:
     pattern: "((^(ssh-rsa AAAAB3NzaC1yc2|ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNT|ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzOD|ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1Mj|ssh-ed25519 AAAAC3NzaC1lZDI1NTE5|ssh-dss AAAAB3NzaC1kc3)[0-9A-Za-z+\/]+[=]{0,3})( [^,]*)?)(,((ssh-rsa AAAAB3NzaC1yc2|ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNT|ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzOD|ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1Mj|ssh-ed25519 AAAAC3NzaC1lZDI1NTE5|ssh-dss AAAAB3NzaC1kc3)[0-9A-Za-z+\/]+[=]{0,3})( [^,]*)?)*$"
 
 
-
   ############################
   #### Load Balancer  #####
   ############################
@@ -735,20 +688,14 @@ variables:
         - should_setup_load_balancer
         - should_configure_load_balancer_params
   load_balancer_subnet_ids:
-    visible:
-      and:
-        - should_setup_load_balancer
-        - should_configure_load_balancer_params
+    visible: false
   load_balancer_is_private:
     visible:
       and:
         - should_setup_load_balancer
         - should_configure_load_balancer_params
   load_balancer_network_security_group_ids:
-    visible:
-      and:
-        - should_setup_load_balancer
-        - should_configure_load_balancer_params
+    visible: false
   backend_set_health_checker_protocol:
     visible:
       and:

@@ -1,7 +1,7 @@
 
 # Creates a new Autonomous Database
 resource "oci_database_autonomous_database" "adb_database" {
-  depends_on = [oci_identity_policy.all_resources_policy]
+  #depends_on = [oci_identity_policy.all_resources_policy]
 
   count = var.should_setup_adb ? 1 : 0
   #Required

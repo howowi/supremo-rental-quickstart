@@ -34,7 +34,7 @@ resource "oci_core_instance" "service_instance" {
   }
 
   metadata = {
-    ssh_authorized_keys = "${var.ssh_public_key}\n${tls_private_key.public_private_key_pair.public_key_openssh}"
+    ssh_authorized_keys = var.ssh_public_key == "" ? "${tls_private_key.public_private_key_pair.public_key_openssh}" : "${var.ssh_public_key}\n${tls_private_key.public_private_key_pair.public_key_openssh}"
     user_data           = base64encode(templatefile("${path.module}/scripts/vm_init.tftpl", { region = var.region }))
   }
 

@@ -1,7 +1,7 @@
 
 # Creates a new load balancer in the specified compartment
 resource "oci_load_balancer_load_balancer" "pg_load_balancer" {
-  depends_on = [oci_identity_policy.all_resources_policy]
+  #depends_on = [oci_identity_policy.all_resources_policy]
 
   count = var.should_setup_load_balancer ? 1 : 0
   #Required

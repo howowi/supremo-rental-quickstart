@@ -1,14 +1,14 @@
 # Opensearch Cluster
 
 resource "time_sleep" "wait_policy_compilation" {
-  depends_on = [oci_identity_policy.open_search_policy[0]]
+  #depends_on = [oci_identity_policy.open_search_policy[0]]
 
   count           = var.should_setup_opensearch_cluster ? 1 : 0
   create_duration = "90s"
 }
 
 resource "oci_opensearch_opensearch_cluster" "opensearch_cluster" {
-  depends_on = [time_sleep.wait_policy_compilation[0]]
+  #depends_on = [time_sleep.wait_policy_compilation[0]]
 
   count = var.should_setup_opensearch_cluster ? 1 : 0
 
