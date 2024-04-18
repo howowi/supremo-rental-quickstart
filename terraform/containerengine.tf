@@ -1,4 +1,5 @@
 resource oci_containerengine_cluster supremo-oke-cluster {
+  count          = local.should_config_shared_private_subnet ? 1 : 0
   cluster_pod_network_options {
     cni_type = "FLANNEL_OVERLAY"
   }
@@ -7,7 +8,7 @@ resource oci_containerengine_cluster supremo-oke-cluster {
     is_public_ip_enabled = "false"
     nsg_ids = [
     ]
-    subnet_id = oci_core_subnet.KubernetesAPIendpoint.id
+    subnet_id = oci_core_subnet.KubernetesAPIendpoint[count.index].id
   }
   freeform_tags = {
     "name" = "supremo-oke-cluster"
@@ -44,7 +45,7 @@ resource oci_containerengine_cluster supremo-oke-cluster {
       }
     }
     service_lb_subnet_ids = [
-      oci_core_subnet.Kubernetesloadbalancers.id,
+      oci_core_subnet.Kubernetesloadbalancers[count.index].id,
     ]
   }
   type   = "BASIC_CLUSTER"
@@ -52,7 +53,8 @@ resource oci_containerengine_cluster supremo-oke-cluster {
 }
 
 resource oci_containerengine_node_pool pool1 {
-  cluster_id     = oci_containerengine_cluster.supremo-oke-cluster.id
+  count          = local.should_config_shared_private_subnet ? 1 : 0
+  cluster_id     = oci_containerengine_cluster.supremo-oke-cluster[count.index].id
   compartment_id = var.compartment_ocid
   freeform_tags = {
   }
@@ -76,7 +78,7 @@ resource oci_containerengine_node_pool pool1 {
       availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
       fault_domains = [
       ]
-      subnet_id = oci_core_subnet.Kubernetesworkernodes.id
+      subnet_id = oci_core_subnet.Kubernetesworkernodes[count.index].id
     }
     size = "2"
   }

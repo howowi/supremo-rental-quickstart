@@ -16,8 +16,9 @@ resource "oci_devops_project" "supremo-devops-project" {
 ## ----- Environment ----- ##
 
 resource "oci_devops_deploy_environment" "supremo-oke-environment" {
+    count          = local.should_config_shared_private_subnet ? 1 : 0
     project_id = oci_devops_project.supremo-devops-project.id
-    cluster_id = oci_containerengine_cluster.supremo-oke-cluster.id
+    cluster_id = oci_containerengine_cluster.supremo-oke-cluster[count.index].id
     deploy_environment_type = "OKE_CLUSTER"
     description = "Supremo OKE Environment"
     display_name = "supremo-oke-environment"
@@ -25,7 +26,7 @@ resource "oci_devops_deploy_environment" "supremo-oke-environment" {
         network_channel_type = "PRIVATE_ENDPOINT_CHANNEL"
         nsg_ids = [
         ]
-        subnet_id = oci_core_subnet.KubernetesAPIendpoint.id
+        subnet_id = oci_core_subnet.KubernetesAPIendpoint[count.index].id
     }
 }
 
@@ -69,6 +70,7 @@ resource oci_devops_deploy_stage Wait-for-approval {
 }
 
 resource oci_devops_deploy_stage deploy_app_oke {
+  count          = local.should_config_shared_private_subnet ? 1 : 0
   deploy_pipeline_id = oci_devops_deploy_pipeline.supremo-deploy-pipeline.id
   deploy_stage_predecessor_collection {
     items {
@@ -84,7 +86,7 @@ resource oci_devops_deploy_stage deploy_app_oke {
     oci_devops_deploy_artifact.deploy_supremo_react.id,
   ]
   namespace = "supremo"
-  oke_cluster_deploy_environment_id = oci_devops_deploy_environment.supremo-oke-environment.id
+  oke_cluster_deploy_environment_id = oci_devops_deploy_environment.supremo-oke-environment[count.index].id
   rollback_policy {
     policy_type = "AUTOMATED_STAGE_ROLLBACK_POLICY"
   }
