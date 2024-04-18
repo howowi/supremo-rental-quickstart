@@ -84,7 +84,7 @@ resource oci_devops_deploy_stage deploy_app_oke {
     oci_devops_deploy_artifact.deploy_supremo_react.id,
   ]
   namespace = "supremo"
-  oke_cluster_deploy_environment_id = oci_devops_deploy_environment.supremo-oke.id
+  oke_cluster_deploy_environment_id = oci_devops_deploy_environment.supremo-oke-environment.id
   rollback_policy {
     policy_type = "AUTOMATED_STAGE_ROLLBACK_POLICY"
   }

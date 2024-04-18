@@ -590,9 +590,9 @@ resource oci_core_subnet Kubernetesloadbalancers {
   dns_label       = "kubernetesloadb"
   prohibit_internet_ingress  = "false"
   prohibit_public_ip_on_vnic = "false"
-  route_table_id             = oci_core_route_table.routetable-Kubernetesloadbalancers.id
+  route_table_id             = oci_core_route_table.routetable-Kubernetesloadbalancers[count.index].id
   security_list_ids = [
-    oci_core_security_list.seclist-Kubernetesloadbalancers.id,
+    oci_core_security_list.seclist-Kubernetesloadbalancers[count.index].id,
   ]
   vcn_id = oci_core_vcn.opensearch_redis_vcn[count.index].id
 }
@@ -606,9 +606,9 @@ resource oci_core_subnet Kubernetesworkernodes {
   dns_label       = "kubernetesworke"
   prohibit_internet_ingress  = "true"
   prohibit_public_ip_on_vnic = "true"
-  route_table_id             = oci_core_route_table.routetable-Kubernetesworkernodes.id
+  route_table_id             = oci_core_route_table.routetable-Kubernetesworkernodes[count.index].id
   security_list_ids = [
-    oci_core_security_list.seclist-Kubernetesworkernodes.id,
+    oci_core_security_list.seclist-Kubernetesworkernodes[count.index].id,
   ]
   vcn_id = oci_core_vcn.opensearch_redis_vcn[count.index].id
 }
@@ -622,9 +622,9 @@ resource oci_core_subnet KubernetesAPIendpoint {
   dns_label       = "kubernetesapien"
   prohibit_internet_ingress  = "true"
   prohibit_public_ip_on_vnic = "true"
-  route_table_id             = oci_core_route_table.routetable-KubernetesAPIendpoint.id
+  route_table_id             = oci_core_route_table.routetable-KubernetesAPIendpoint[count.index].id
   security_list_ids = [
-    oci_core_security_list.seclist-KubernetesAPIendpoint.id,
+    oci_core_security_list.seclist-KubernetesAPIendpoint[count.index].id,
   ]
   vcn_id = oci_core_vcn.opensearch_redis_vcn[count.index].id
 }
