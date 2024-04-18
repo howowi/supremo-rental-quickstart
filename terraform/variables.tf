@@ -587,3 +587,26 @@ variable "objectstorage_bucket" {
   default     = "tf-key-files"
 }
 
+#*************************************
+#           OKE
+#*************************************
+
+variable "kubernetes_version" {
+  description = "Kubernetes version"
+}
+
+variable "oke_node_shape" {
+  description = "Instance shape of the node"
+}
+
+variable "oke_shape_ocpus" {
+  description = "Number of OCPUs of each node"
+}
+      
+variable "oke_shape_mems" {
+  description = "Memory of each node in GB"
+}     
+
+variable "oke_image_os_id" {
+  description = "OS Image OCID of the node pool"
+}

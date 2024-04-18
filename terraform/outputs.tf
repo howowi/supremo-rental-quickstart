@@ -100,3 +100,7 @@ output "order_search" {
 output "car_health" {
   value = "http://${local.ip_address}/car-health/cars/t001"
 }
+
+output oci-devops-pipeline-id {
+    value = oci_devops_deploy_pipeline.supremo-deploy-pipeline.id
+}

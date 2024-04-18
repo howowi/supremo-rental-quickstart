@@ -48,9 +48,9 @@ kubectl get secrets -n supremo
 
 1. Navigate to OCI DevOps project.
 
-2. Go to artifact and select "deploy_supremo_frontend".
+2. Go to artifact and select "deploy_supremo_react".
 
-3. Copy and paste the content of deployment_supremo_frontend.yml to the artifact.
+3. Copy and paste the content of deployment/deployment_supremo_frontend.yml to the artifact.
 
 #### Update Code and Run Github Action
 

@@ -131,6 +131,14 @@ variableGroups:
       - node_flex_shape_memory
       - ssh_public_key
 
+  - title: "OKE"
+    variables:
+      - kubernetes_version
+      - oke_node_shape
+      - oke_shape_ocpus
+      - oke_shape_mems
+      - oke_image_os_id
+
 variables:
   region:
     type: oci:identity:region:name
@@ -753,6 +761,54 @@ variables:
         - should_configure_load_balancer_params
 
 ############################
+#### OKE  #####
+############################
+
+  kubernetes_version:
+    title: "Kubernetes Version"
+    required: true
+    type: enum
+    description: "Please choose the supported Kubernetes version"
+    default: "v1.29.1"
+    enum:
+      - "v1.29.1"
+      - "v1.28.2"
+      - "v1.27.10"
+      - "v1.26.7"
+
+  oke_node_shape:
+    title: "Node shape"
+    required: true
+    type: oci:core:instanceshape:name
+    description: "Please choose the supported instance shape for the node"
+    dependsOn:      
+       compartmentId: ${compartment_ocid}
+
+  oke_shape_ocpus:
+    title: "Number of OCPUs of each node"
+    required: true
+    type: string
+    default: "2"
+    description: "Please key in the number of OCPUs"
+
+  oke_shape_mems:
+    title: "Memory of each node in GB"
+    required: true
+    type: string
+    default: "16"
+    description: "Please key in the amount of memory in GB"
+
+  oke_image_os_id:
+    title: "OS Image OCID of the node pool"
+    required: true
+    type: oci:core:image:id
+    description: "Please choose the supported OS image for the node"
+    dependsOn:      
+       compartmentId: ${compartment_ocid}
+       operatingSystem: "Oracle Linux"
+       shape: ${oke_node_shape}
+
+############################
 ####     OUTPUT
 ############################
 outputGroups:
@@ -770,3 +826,6 @@ outputGroups:
     outputs:
       - redis_primay_endpoint
       - redis_primay_endpoint_ip
+  - title: "OCI DevOps Pipeline ID"
+    outputs:
+      - oci-devops-pipeline-id
