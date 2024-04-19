@@ -48,7 +48,7 @@ function CarCheckOut({ bookingDetails }) {
 
  
   useEffect(() => {
-    fetch("http://<backend_ip>/car-service-redis/cars"+`/${id}`)
+    fetch("http://158.178.137.168/car-service-redis/cars"+`/${id}`)
       .then((response) => response.json())
       .then((data) => {
         // console.log("from http://146.56.171.43:8081 ", id);
@@ -61,7 +61,7 @@ function CarCheckOut({ bookingDetails }) {
 
   useEffect(() => {
     console.log('Fetching data for user ID:', getUserId);
-    fetch(`http://<backend_ip>/order-service/user-orders?userid=${getUserId}`)
+    fetch(`http://158.178.137.168/order-service/user-orders?userid=${getUserId}`)
         .then((response) => response.json())
         .then((data) => {
             console.log("Data from server:)) ", data);
@@ -86,7 +86,7 @@ function CarCheckOut({ bookingDetails }) {
   //console.log("userDataN ", userDataN);
 
   useEffect(() => {
-    fetch(`http://<backend_ip>/user-service-redis/users/${getUserId}`)
+    fetch(`http://158.178.137.168/user-service-redis/users/${getUserId}`)
       .then((response) => response.json())
       .then((data) => {
         // console.log("from http://146.56.171.43:8081 ", id);
@@ -148,7 +148,7 @@ function CarCheckOut({ bookingDetails }) {
   const handleCheckout = async () => {
     // Call your authentication API with username and password
     //console.log("api calling ", process.env.REACT_APP_CREATE_ORDER_API);
-    const response = await fetch("http://<backend_ip>/order-service/create-order", {
+    const response = await fetch("http://158.178.137.168/order-service/create-order", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -3,7 +3,7 @@ name: Supremo CICD
 on:
   push:
     branches:
-      - main
+      - dev-howie
       
 jobs:   
   build_supremo_app:
@@ -13,10 +13,10 @@ jobs:
       OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
       OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
       OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
-      REACT_APP_CARLIST_URL: http://<backend_ip>/car-service-redis/cars
-      REACT_APP_CARAPP_LOGINAUTH_URL: http://<backend_ip>/user-service-redis/authn
-      REACT_APP_GET_USER_BY_ID: http://<backend_ip>/user-service-redis/users/
-      REACT_APP_CREATE_ORDER_API: http://<backend_ip>/order-service/create-order
+      REACT_APP_CARLIST_URL: http://158.178.137.168/car-service-redis/cars
+      REACT_APP_CARAPP_LOGINAUTH_URL: http://158.178.137.168/user-service-redis/authn
+      REACT_APP_GET_USER_BY_ID: http://158.178.137.168/user-service-redis/users/
+      REACT_APP_CREATE_ORDER_API: http://158.178.137.168/order-service/create-order
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -41,7 +41,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: bom.ocir.io
-          username: ${{ secrets.OCI_USERNAME }}
+          username: ${{ secrets.OCIR_USERNAME }}
           password: ${{ secrets.OCI_AUTH_TOKEN }}
 
       - name: Use Node.js

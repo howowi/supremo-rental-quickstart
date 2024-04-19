@@ -21,7 +21,7 @@
     * OCI_CLI_TENANCY
     * OCI_CLI_USER
     * OCI_COMPARTMENT_OCID
-    * OCI_USERNAME
+    * OCIR_USERNAME
     * OCI_AUTH_TOKEN
     * OCI_DEVOPS_PIPELINE_ID
 
@@ -54,7 +54,7 @@ kubectl get secrets -n supremo
 
 #### Update Code and Run Github Action
 
-1. Search for `<backend_ip>` across all the files in this repository and update it with the IP address of the backend server.
+1. Search for `158.178.137.168` across all the files in this repository and update it with the IP address of the backend server.
 
 2. Commit and push the changes to Github.
 
