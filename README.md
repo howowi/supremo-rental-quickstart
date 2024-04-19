@@ -25,6 +25,8 @@
     * OCI_AUTH_TOKEN
     * OCI_DEVOPS_PIPELINE_ID
 
+5. Search for `-<ocir_name_postfix>` in .github/worklows/main.yml. Update it with a postfix of your choice.
+
 #### OKE Setup
 
 1. Create ephemeral network definition on Cloud Shell to acccess the private OKE cluster.
