@@ -29,7 +29,7 @@
 
 #### OKE Setup
 
-1. Create ephemeral network definition on Cloud Shell to acccess the private OKE cluster.
+1. Create ephemeral network definition on Cloud Shell to acccess the private OKE cluster. Alternatively, use OCI Bastion.
 
 2. Create a namespace for supremo app
 ```
