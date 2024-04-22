@@ -87,7 +87,7 @@ function MyBookings({ onLogout, userJsonVal, bookingCount }) {
         setSelectedCarId(carId);
         setShowModal(true);
 
-        fetch(`http://140.238.204.249/car-service-redis/carshealth/${carId}`)
+        fetch(`http://140.238.204.249/car-health/cars/${carId}`)
             .then((response) => response.json())
             .then((data) => {
                 console.log("Car Details:", data);
