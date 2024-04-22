@@ -25,7 +25,7 @@ function Profile({ onLogout, userJsonVal, bookingCount }) {
 
 
   useEffect(() => {
-    fetch(`http://158.178.137.168/user-service-redis/users/${getUserId}`)
+    fetch(`http://140.238.204.249/user-service-redis/users/${getUserId}`)
       .then((response) => response.json())
       .then((data) => {
         setUserData(data);
@@ -38,7 +38,7 @@ function Profile({ onLogout, userJsonVal, bookingCount }) {
   useEffect(() => {
     if(getUserId){
     console.log('Fetching data for user ID:', getUserId);
-    fetch(`http://158.178.137.168/order-service/user-orders?userid=${getUserId}`)
+    fetch(`http://140.238.204.249/order-service/user-orders?userid=${getUserId}`)
         .then((response) => response.json())
         .then((data) => {
             console.log("Data from server:)) ", data);

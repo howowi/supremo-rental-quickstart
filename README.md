@@ -56,7 +56,7 @@ kubectl get secrets -n supremo
 
 #### Update Code and Run Github Action
 
-1. Search for `158.178.137.168` across all the files in this repository and update it with the IP address of the backend server.
+1. Search for `140.238.204.249` across all the files in this repository and update it with the IP address of the backend server.
 
 2. Commit and push the changes to Github.
 
