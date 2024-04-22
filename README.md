@@ -21,13 +21,15 @@
     * OCI_CLI_TENANCY
     * OCI_CLI_USER
     * OCI_COMPARTMENT_OCID
-    * OCI_USERNAME
+    * OCIR_USERNAME
     * OCI_AUTH_TOKEN
     * OCI_DEVOPS_PIPELINE_ID
 
+5. Search for `-<ocir_name_postfix>` in .github/worklows/main.yml. Update it with a postfix of your choice.
+
 #### OKE Setup
 
-1. Create ephemeral network definition on Cloud Shell to acccess the private OKE cluster.
+1. Create ephemeral network definition on Cloud Shell to acccess the private OKE cluster. Alternatively, use OCI Bastion.
 
 2. Create a namespace for supremo app
 ```

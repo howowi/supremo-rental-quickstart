@@ -121,7 +121,7 @@ function MyBookings({ onLogout, userJsonVal, bookingCount }) {
         console.log("car health check for car id", carId);
         setSelectedCarId(carId);
 
-        fetch(`http://<backend_ip>/car-service-redis/carshealth/${carId}`)
+        fetch(`http://<backend_ip>/car-health/cars/${carId}`)
             .then((response) => response.json())
             .then((data) => {
                 console.log("Car Details:", data);

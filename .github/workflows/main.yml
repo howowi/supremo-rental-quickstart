@@ -26,7 +26,7 @@ jobs:
         uses: oracle-actions/get-ocir-repository@v1.2.1
         id: get-ocir-repository
         with:
-          name: frontend/supremo-reactjs
+          name: frontend/supremo-reactjs-<ocir_name_postfix>
           compartment: ${{ secrets.OCI_COMPARTMENT_OCID }}
 
       - name: Docker meta
@@ -38,11 +38,10 @@ jobs:
             type=sha,prefix=
 
       - name: Login to OCI Container Registry
-        uses: docker/login-action@v3
+        uses: oracle-actions/login-ocir@v1.2.1
+        id: login-ocir
         with:
-          registry: bom.ocir.io
-          username: ${{ secrets.OCI_USERNAME }}
-          password: ${{ secrets.OCI_AUTH_TOKEN }}
+          auth_token: ${{ secrets.OCI_AUTH_TOKEN }}
 
       - name: Use Node.js
         uses: actions/setup-node@v3
@@ -101,7 +100,7 @@ jobs:
         uses: oracle-actions/get-ocir-repository@v1.2.1
         id: get-ocir-repository
         with:
-          name: frontend/supremo-reactjs
+          name: frontend/supremo-reactjs-<ocir_name_postfix>
           compartment: ${{ secrets.OCI_COMPARTMENT_OCID }}
         
       - name: Docker meta
