@@ -25,5 +25,6 @@ provider "oci" {
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
 
-  disable_auto_retries = "true"
+  # Removing disable_auto_retries = "true" from provider fixed the issue. 409 Conflict.
+  #disable_auto_retries = "true"
 }

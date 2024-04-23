@@ -306,7 +306,7 @@ variable "nosql_table_ddl_statement" {
   description = "Nosql table ddl statement"
   type        = string
   #default     = "CREATE TABLE if not exists demo(fullName STRING, contactPhone STRING, ticketNo STRING, confNo STRING,gender  STRING, bagInfo JSON,  PRIMARY KEY ( ticketNo ))"
-  default = "CREATE TABLE CarHealth (carid string, lastservicedate timestamp(6),mileage integer, fueltype string,enginepower string,enginestatus string, transmissiontype string, fuelLevel string, PRIMARY KEY ( carid, lastservicedate ))"
+  default = "CREATE TABLE CarHealth (carid string, lastservicedate timestamp(6),mileage integer, fueltype string,enginepower string,enginestatus string, transmissiontype string, fuelLevel string, name string, model string, PRIMARY KEY ( carid, lastservicedate ))"
 }
 
 variable "nosql_table_name" {
@@ -355,7 +355,7 @@ variable "should_configure_opensearch_params" {
 }
 
 variable "opensearch_cluster_software_version" {
-  default = "2.3.0"
+  default = "2.11.0"
 }
 
 variable "opensearch_cluster_display_name" {
@@ -602,10 +602,10 @@ variable "oke_node_shape" {
 variable "oke_shape_ocpus" {
   description = "Number of OCPUs of each node"
 }
-      
+
 variable "oke_shape_mems" {
   description = "Memory of each node in GB"
-}     
+}
 
 variable "oke_image_os_id" {
   description = "OS Image OCID of the node pool"

@@ -21,10 +21,10 @@ resource "oci_core_nat_gateway" "nat_gateway" {
   display_name   = "nat_gateway"
 }
 
-resource oci_core_service_gateway service_gateway {
+resource "oci_core_service_gateway" "service_gateway" {
   count          = local.should_use_existing_network ? 0 : 1
   compartment_id = var.compartment_ocid
-  display_name = "service_gateway"
+  display_name   = "service_gateway"
   services {
     service_id = data.oci_core_services.all_services.services.1.id
   }
@@ -56,10 +56,10 @@ resource "oci_core_route_table" "private_route_table" {
   }
 }
 
-resource oci_core_route_table routetable-Kubernetesloadbalancers {
+resource "oci_core_route_table" "routetable-Kubernetesloadbalancers" {
   count          = local.should_use_existing_network ? 0 : 1
   compartment_id = var.compartment_ocid
-  display_name = "routetable-Kubernetesloadbalancers"
+  display_name   = "routetable-Kubernetesloadbalancers"
   route_rules {
     destination       = "0.0.0.0/0"
     destination_type  = "CIDR_BLOCK"
@@ -68,10 +68,10 @@ resource oci_core_route_table routetable-Kubernetesloadbalancers {
   vcn_id = oci_core_vcn.opensearch_redis_vcn[count.index].id
 }
 
-resource oci_core_route_table routetable-Kubernetesworkernodes {
+resource "oci_core_route_table" "routetable-Kubernetesworkernodes" {
   count          = local.should_use_existing_network ? 0 : 1
   compartment_id = var.compartment_ocid
-  display_name = "routetable-Kubernetesworkernodes"
+  display_name   = "routetable-Kubernetesworkernodes"
   route_rules {
     destination       = "0.0.0.0/0"
     destination_type  = "CIDR_BLOCK"
@@ -85,10 +85,10 @@ resource oci_core_route_table routetable-Kubernetesworkernodes {
   vcn_id = oci_core_vcn.opensearch_redis_vcn[count.index].id
 }
 
-resource oci_core_route_table routetable-KubernetesAPIendpoint {
+resource "oci_core_route_table" "routetable-KubernetesAPIendpoint" {
   count          = local.should_use_existing_network ? 0 : 1
   compartment_id = var.compartment_ocid
-  display_name = "routetable-KubernetesAPIendpoint"
+  display_name   = "routetable-KubernetesAPIendpoint"
   route_rules {
     destination       = "0.0.0.0/0"
     destination_type  = "CIDR_BLOCK"
@@ -324,21 +324,21 @@ resource "oci_core_security_list" "opensearch_redis_security_list" {
   }
 }
 
-resource oci_core_security_list seclist-Kubernetesloadbalancers {
+resource "oci_core_security_list" "seclist-Kubernetesloadbalancers" {
   count          = local.should_config_shared_private_subnet ? 1 : 0
   compartment_id = var.compartment_ocid
-  display_name = "seclist-Kubernetesloadbalancers"
+  display_name   = "seclist-Kubernetesloadbalancers"
   egress_security_rules {
     destination      = cidrsubnet(var.vcn_cidr, 8, 5)
     destination_type = "CIDR_BLOCK"
-    protocol  = "all"
-    stateless = "false"
+    protocol         = "all"
+    stateless        = "false"
   }
   egress_security_rules {
     destination      = cidrsubnet(var.vcn_cidr, 8, 5)
     destination_type = "CIDR_BLOCK"
-    protocol  = "6"
-    stateless = "false"
+    protocol         = "6"
+    stateless        = "false"
     tcp_options {
       max = "30613"
       min = "30613"
@@ -347,8 +347,8 @@ resource oci_core_security_list seclist-Kubernetesloadbalancers {
   egress_security_rules {
     destination      = cidrsubnet(var.vcn_cidr, 8, 5)
     destination_type = "CIDR_BLOCK"
-    protocol  = "6"
-    stateless = "false"
+    protocol         = "6"
+    stateless        = "false"
     tcp_options {
       max = "10256"
       min = "10256"
@@ -357,8 +357,8 @@ resource oci_core_security_list seclist-Kubernetesloadbalancers {
   egress_security_rules {
     destination      = cidrsubnet(var.vcn_cidr, 8, 5)
     destination_type = "CIDR_BLOCK"
-    protocol  = "6"
-    stateless = "false"
+    protocol         = "6"
+    stateless        = "false"
     tcp_options {
       max = "32165"
       min = "32165"
@@ -393,15 +393,15 @@ resource oci_core_security_list seclist-Kubernetesloadbalancers {
   vcn_id = oci_core_vcn.opensearch_redis_vcn[count.index].id
 }
 
-resource oci_core_security_list seclist-Kubernetesworkernodes {
+resource "oci_core_security_list" "seclist-Kubernetesworkernodes" {
   count          = local.should_config_shared_private_subnet ? 1 : 0
   compartment_id = var.compartment_ocid
-  display_name = "seclist-Kubernetesworkernodes"
+  display_name   = "seclist-Kubernetesworkernodes"
   egress_security_rules {
     destination      = "0.0.0.0/0"
     destination_type = "CIDR_BLOCK"
-    protocol  = "all"
-    stateless = "false"
+    protocol         = "all"
+    stateless        = "false"
   }
   ingress_security_rules {
     protocol    = "all"
@@ -460,27 +460,27 @@ resource oci_core_security_list seclist-Kubernetesworkernodes {
   vcn_id = oci_core_vcn.opensearch_redis_vcn[count.index].id
 }
 
-resource oci_core_security_list seclist-KubernetesAPIendpoint {
+resource "oci_core_security_list" "seclist-KubernetesAPIendpoint" {
   count          = local.should_config_shared_private_subnet ? 1 : 0
   compartment_id = var.compartment_ocid
-  display_name = "seclist-KubernetesAPIendpoint"
+  display_name   = "seclist-KubernetesAPIendpoint"
   egress_security_rules {
     destination      = data.oci_core_services.all_services.services.1.cidr_block
     destination_type = "SERVICE_CIDR_BLOCK"
-    protocol  = "all"
-    stateless = "false"
+    protocol         = "all"
+    stateless        = "false"
   }
   egress_security_rules {
     destination      = cidrsubnet(var.vcn_cidr, 8, 5)
     destination_type = "CIDR_BLOCK"
-    protocol  = "all"
-    stateless = "false"
+    protocol         = "all"
+    stateless        = "false"
   }
   egress_security_rules {
     destination      = "0.0.0.0/0"
     destination_type = "CIDR_BLOCK"
-    protocol  = "6"
-    stateless = "false"
+    protocol         = "6"
+    stateless        = "false"
   }
   ingress_security_rules {
     protocol    = "6"
@@ -581,13 +581,13 @@ resource "oci_core_subnet" "shared_private_subnet" {
   dns_label                  = "sharedpriv"
 }
 
-resource oci_core_subnet Kubernetesloadbalancers {
-  count          = local.should_config_shared_private_subnet ? 1 : 0
-  cidr_block     = cidrsubnet(var.vcn_cidr, 8, 6)
-  compartment_id = var.compartment_ocid
-  dhcp_options_id = oci_core_vcn.opensearch_redis_vcn[count.index].default_dhcp_options_id
-  display_name    = "Kubernetesloadbalancers"
-  dns_label       = "kubernetesloadb"
+resource "oci_core_subnet" "Kubernetesloadbalancers" {
+  count                      = local.should_config_shared_private_subnet ? 1 : 0
+  cidr_block                 = cidrsubnet(var.vcn_cidr, 8, 6)
+  compartment_id             = var.compartment_ocid
+  dhcp_options_id            = oci_core_vcn.opensearch_redis_vcn[count.index].default_dhcp_options_id
+  display_name               = "Kubernetesloadbalancers"
+  dns_label                  = "kubernetesloadb"
   prohibit_internet_ingress  = "false"
   prohibit_public_ip_on_vnic = "false"
   route_table_id             = oci_core_route_table.routetable-Kubernetesloadbalancers[count.index].id
@@ -597,13 +597,13 @@ resource oci_core_subnet Kubernetesloadbalancers {
   vcn_id = oci_core_vcn.opensearch_redis_vcn[count.index].id
 }
 
-resource oci_core_subnet Kubernetesworkernodes {
-  count          = local.should_config_shared_private_subnet ? 1 : 0
-  cidr_block     = cidrsubnet(var.vcn_cidr, 8, 5)
-  compartment_id = var.compartment_ocid
-  dhcp_options_id = oci_core_vcn.opensearch_redis_vcn[count.index].default_dhcp_options_id
-  display_name    = "Kubernetesworkernodes"
-  dns_label       = "kubernetesworke"
+resource "oci_core_subnet" "Kubernetesworkernodes" {
+  count                      = local.should_config_shared_private_subnet ? 1 : 0
+  cidr_block                 = cidrsubnet(var.vcn_cidr, 8, 5)
+  compartment_id             = var.compartment_ocid
+  dhcp_options_id            = oci_core_vcn.opensearch_redis_vcn[count.index].default_dhcp_options_id
+  display_name               = "Kubernetesworkernodes"
+  dns_label                  = "kubernetesworke"
   prohibit_internet_ingress  = "true"
   prohibit_public_ip_on_vnic = "true"
   route_table_id             = oci_core_route_table.routetable-Kubernetesworkernodes[count.index].id
@@ -613,13 +613,13 @@ resource oci_core_subnet Kubernetesworkernodes {
   vcn_id = oci_core_vcn.opensearch_redis_vcn[count.index].id
 }
 
-resource oci_core_subnet KubernetesAPIendpoint {
-  count          = local.should_config_shared_private_subnet ? 1 : 0
-  cidr_block     = cidrsubnet(var.vcn_cidr, 8, 4)
-  compartment_id = var.compartment_ocid
-  dhcp_options_id = oci_core_vcn.opensearch_redis_vcn[count.index].default_dhcp_options_id
-  display_name    = "KubernetesAPIendpoint"
-  dns_label       = "kubernetesapien"
+resource "oci_core_subnet" "KubernetesAPIendpoint" {
+  count                      = local.should_config_shared_private_subnet ? 1 : 0
+  cidr_block                 = cidrsubnet(var.vcn_cidr, 8, 4)
+  compartment_id             = var.compartment_ocid
+  dhcp_options_id            = oci_core_vcn.opensearch_redis_vcn[count.index].default_dhcp_options_id
+  display_name               = "KubernetesAPIendpoint"
+  dns_label                  = "kubernetesapien"
   prohibit_internet_ingress  = "true"
   prohibit_public_ip_on_vnic = "true"
   route_table_id             = oci_core_route_table.routetable-KubernetesAPIendpoint[count.index].id

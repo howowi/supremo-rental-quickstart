@@ -6,8 +6,9 @@ data "oci_objectstorage_namespace" "oss_namespace" {
 
 resource "oci_objectstorage_bucket" "oss_bucket" {
   compartment_id = var.compartment_ocid
-  name           = var.objectstorage_bucket
-  namespace      = data.oci_objectstorage_namespace.oss_namespace.namespace
+  name           = "${var.objectstorage_bucket}-${random_id.tag.hex}"
+
+  namespace = data.oci_objectstorage_namespace.oss_namespace.namespace
 }
 
 resource "oci_objectstorage_object" "private_key_object" {
