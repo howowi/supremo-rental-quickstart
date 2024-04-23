@@ -1,0 +1,11 @@
+{"index":{"_index":"my_index","_id":1}}
+{"id" : 1,"question" : "Are tolls covered with the rental?","answer" : "No, you will be charged separately for it.","url" : "www.supremorental.com/toll"}
+{"index":{"_index":"my_index","_id":2}}
+{"id" : 2,"question" : "I have discount coupon. How can I redeem it?","answer" : "While booking car, on the billing page, enter the coupon code.","url" : "www.supremorental.com/discount"}
+{"index":{"_index":"my_index","_id":3}}
+{"id" : 3,"question" : "How do I unlock the car?","answer" : "Turn on bluetooth on your phone and press unlock car on the app when you're within 1m from the car.","url" : "www.supremorental.com/getin"}
+{"index":{"_index":"my_index","_id":4}}
+{"id" : 4,"question" : "How does the billing works.","answer" : "Car billing is hourly based. While booking, you can mention number of hours on the billing page.","url" : "www.supremorental.com/billing"}
+{"index":{"_index":"my_index","_id":5}}
+{"id" : 5,"question" : "How do I end my trip","answer" : "Turn off the engine, lock the car and press 'end trip' on the app","url" : "www.supremorental.com/trip"}
+

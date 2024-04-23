@@ -35,7 +35,12 @@ resource "oci_core_instance" "service_instance" {
 
   metadata = {
     ssh_authorized_keys = var.ssh_public_key == "" ? "${tls_private_key.public_private_key_pair.public_key_openssh}" : "${var.ssh_public_key}\n${tls_private_key.public_private_key_pair.public_key_openssh}"
-    user_data           = base64encode(templatefile("${path.module}/scripts/vm_init.tftpl", { region = var.region }))
+    user_data = base64encode(templatefile("${path.module}/scripts/vm_init.tftpl", {
+      region              = var.region,
+      opensearch_username = var.opensearch_cluster_master_user,
+      opensearch_password = var.opensearch_cluster_master_password,
+      opensearch_endpoint = "https://${oci_opensearch_opensearch_cluster.opensearch_cluster[0].opensearch_fqdn}:9200",
+    }))
   }
 
   # Copies app.env file to destination vm
@@ -64,6 +69,10 @@ resource "oci_core_instance" "service_instance" {
       redis_primay_endpoint = oci_redis_redis_cluster.dedicated_redis_cluster[0].primary_fqdn,
       vm_public_ip          = oci_core_instance.service_instance[0].public_ip,
       pg_load_balancer_ip   = oci_load_balancer_load_balancer.pg_load_balancer[0].ip_address_details[0].ip_address,
+
+      opensearch_username = var.opensearch_cluster_master_user,
+      opensearch_password = var.opensearch_cluster_master_password,
+      opensearch_endpoint = "https://${oci_opensearch_opensearch_cluster.opensearch_cluster[0].opensearch_fqdn}:9200",
     })
     destination = "/home/opc/app.env"
   }
@@ -114,6 +123,18 @@ resource "oci_core_instance" "service_instance" {
     }
     source      = "${path.module}/private_key.pem"
     destination = "/home/opc/.oci/car_demo.pem"
+  }
+
+  # Copies opensearch-init to destination
+  provisioner "file" {
+    connection {
+      type        = "ssh"
+      user        = "opc"
+      private_key = tls_private_key.public_private_key_pair.private_key_pem
+      host        = self.public_ip
+    }
+    source      = "./opensearch-init"
+    destination = "/home/opc/opensearch-init"
   }
 
 }

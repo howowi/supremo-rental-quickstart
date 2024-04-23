@@ -66,6 +66,7 @@ su opc -lc "echo VM_Intialization_Begins... >> /home/opc/app-init.out 2>&1" || t
    su opc -lc "~/SupremoRentalDemo/login-service-redis-batch.sh >> /home/opc/app-init.out 2>&1" || true;
    su opc -lc "~/SupremoRentalDemo/transaction-service-batch.sh >> /home/opc/app-init.out 2>&1" || true;
    su opc -lc "~/SupremoRentalDemo/car-health-service-batch.sh >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "~/SupremoRentalDemo/askme-service-batch.sh >> /home/opc/app-init.out 2>&1" || true;
    su opc -lc "echo Load_Data_For_AJD... >> /home/opc/app-init.out 2>&1" || true;
    su opc -lc "curl -X GET http://localhost/car-service/load-data >> /home/opc/app-init.out 2>&1" || true;
    su opc -lc "echo Load_Data_For_NoSQL... >> /home/opc/app-init.out 2>&1" || true;
@@ -73,3 +74,22 @@ su opc -lc "echo VM_Intialization_Begins... >> /home/opc/app-init.out 2>&1" || t
    su opc -lc "echo ------------- >> /home/opc/app-init.out 2>&1" || true;
    su opc -lc "echo Congrat_VM_Intialization_Done. >> /home/opc/app-init.out 2>&1" || true;
    
+
+
+# Load opensearch_data.json into OpenSearch cluster.
+curl -XPUT -u "${opensearch_username}:${opensearch_password}" "${opensearch_endpoint}/my_index" -H 'Content-Type: application/json' -d '
+{ 
+ "mappings": {
+ "properties": {
+ "id": {"type": "integer"},
+ "question": {"type": "text"},
+ "answer": {"type": "text"},
+ "url": {"type": "text"}
+ }
+ }
+}
+'
+
+curl -H 'Content-Type: application/x-ndjson' -XPOST -u "${opensearch_username}:${opensearch_password}" "${opensearch_endpoint}/my_index/_bulk?pretty" --data-binary @/home/opc/opensearch-init/opensearch_data.json
+
+
