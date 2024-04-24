@@ -26,7 +26,7 @@ jobs:
         uses: oracle-actions/get-ocir-repository@v1.2.1
         id: get-ocir-repository
         with:
-          name: frontend/supremo-reactjs-${GITHUB_REPOSITORY_ID}
+          name: frontend/supremo-reactjs-${{ github.repository_id }}
           compartment: ${{ secrets.OCI_COMPARTMENT_OCID }}
 
       - name: Docker meta
@@ -100,7 +100,7 @@ jobs:
         uses: oracle-actions/get-ocir-repository@v1.2.1
         id: get-ocir-repository
         with:
-          name: frontend/supremo-reactjs-${GITHUB_REPOSITORY_ID}
+          name: frontend/supremo-reactjs-${{ github.repository_id }}
           compartment: ${{ secrets.OCI_COMPARTMENT_OCID }}
         
       - name: Docker meta
