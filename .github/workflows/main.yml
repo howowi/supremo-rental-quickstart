@@ -26,7 +26,7 @@ jobs:
         uses: oracle-actions/get-ocir-repository@v1.2.1
         id: get-ocir-repository
         with:
-          name: frontend/supremo-reactjs-<ocir_name_postfix>
+          name: frontend/supremo-reactjs-oliviadyz
           compartment: ${{ secrets.OCI_COMPARTMENT_OCID }}
 
       - name: Docker meta
