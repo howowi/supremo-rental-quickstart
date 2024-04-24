@@ -15,54 +15,72 @@ Click on the button below to deploy the baseline infrastructure using OCI Resour
 
 2. Clone the repository on your local terminal or Cloud Shell.
 
-3. Navigate to Github repository settings. Press "Actions" under "Secrets and variables" option.
+3. Navigate to Github repository settings.
 
-4. Press "New repository secret" to create the following secrets
+    ![](img/gh_settings.png)
+
+4. Press "Actions" under "Secrets and variables" option.
+
+    ![](img/gh_secrets.png)
+
+5. Press "New repository secret" to create the following secrets. For `OCI_CLI` parameters, refer to the [documentation](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm#configfile) on OCI CLI configuration file setup.
 
     * OCI_CLI_FINGERPRINT
     * OCI_CLI_KEY_CONTENT
     * OCI_CLI_REGION
     * OCI_CLI_TENANCY
     * OCI_CLI_USER
-    * OCI_COMPARTMENT_OCID
-    * OCIR_USERNAME
-    * OCI_AUTH_TOKEN
-    * OCI_DEVOPS_PIPELINE_ID
+    * OCI_COMPARTMENT_OCID (Refer to [documentation](https://docs.oracle.com/en-us/iaas/Content/GSG/Tasks/contactingsupport_topic-Locating_Oracle_Cloud_Infrastructure_IDs.htm#Finding_the_OCID_of_a_Compartment))
+    * OCIR_USERNAME (Refer to [documentation](https://docs.oracle.com/en-us/iaas/Content/Registry/Tasks/registrypullingimagesusingthedockercli.htm))
+    * OCI_AUTH_TOKEN (Refer to [documentation](https://docs.oracle.com/en-us/iaas/Content/Registry/Tasks/registrypullingimagesusingthedockercli.htm))
+    * OCI_DEVOPS_PIPELINE_ID (obtain from Resource Manager Outputs)
 
-5. Search for `-<ocir_name_postfix>` in .github/worklows/main.yml. Update it with a postfix of your choice.
+        ![](img/devops_pipeline_id.png)
 
 #### OKE Setup
 
 1. Create ephemeral network definition on Cloud Shell to acccess the private OKE cluster. Alternatively, use OCI Bastion.
 
-2. Create a namespace for supremo app
-```
-kubectl create ns supremo
-```
+    * Cloud Shell: Refer to [documentation](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellintro_topic-Cloud_Shell_Networking.htm#Cloud_Shell_Private_Access).
 
-3. Create container registry secret to pull container image from OCI Container Registry.
-```
-kubectl create secret docker-registry ocir-secret --docker-username='<tenancy_name>/<username>' --docker-password='<auth_token>' --docker-server=<region_code>.ocir.io --docker-email='<user_email>' -n supremo
-```
+    * OCI Bastion: Refer to [documentation](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengsettingupbastion.htm#contengsettingupbastion_topic_Access_Kubernetes_API_endpoint).
+
+2. Create a namespace for supremo app
+    ```
+    kubectl create ns supremo
+    ```
+
+3. Create container registry secret to pull container image from OCI Container Registry. Refer to [documentation](https://docs.oracle.com/en-us/iaas/Content/Registry/Tasks/registrypullingimagesusingthedockercli.htm) for the values for `docker-username`, `docker-password` and `docker-server`.
+    ```
+    kubectl create secret docker-registry ocir-secret --docker-username='<tenancy_namespace>/<username>' --docker-password='<auth_token>' --docker-server=<region_code>.ocir.io --docker-email='<user_email>' -n supremo
+    ```
 
 4. Check that secret has been created
-```
-kubectl get secrets -n supremo
-```
+    ```
+    kubectl get secrets -n supremo
+    ```
 
 #### OCI DevOps Setup
 
 1. Navigate to OCI DevOps project.
 
+![](img/devops_project.png)
+
 2. Go to artifact and select "deploy_supremo_react".
 
-3. Copy and paste the content of deployment/deployment_supremo_frontend.yml to the artifact.
+![](img/devops_artifacts.png)
+
+3. Copy and paste the content of [deployment_supremo_frontend.yml](deployment/deployment_supremo_frontend.yml) to the artifact and save it.
 
 #### Update Code and Run Github Action
 
-1. Search for `140.238.204.249` across all the files in this repository and update it with the IP address of the backend server.
+1.  Obtain the IP address of the backend serverfrom Resource Manager Outputs.
 
-2. Commit and push the changes to Github.
+    ![](img/backend_ip_addr.png)
+
+2. Search for `<backend_ip>` across all the files in this repository and update it with the value from the previous step. Use OCI Code Editor or your preferred IDE for optimal experience.
+
+2. Commit and push the changes to Github repo main branch.
 
 3. Observe that Github Action will be triggered and OCI Deployment Pipeline will deploy Supremo frontend to OKE cluster.
 
