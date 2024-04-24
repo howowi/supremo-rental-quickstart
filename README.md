@@ -33,8 +33,6 @@
 
         ![](img/devops_pipeline_id.png)
 
-6. Search for `-<ocir_name_postfix>` in [main.yml](.github/workflows/main.yml). Update it with a postfix of your choice.
-
 #### OKE Setup
 
 1. Create ephemeral network definition on Cloud Shell to acccess the private OKE cluster. Alternatively, use OCI Bastion.
