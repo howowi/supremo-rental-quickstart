@@ -1,7 +1,7 @@
 ## ----- Project ----- ##
 resource "oci_ons_notification_topic" "devops-notification-topic" {
     compartment_id = var.compartment_ocid
-    name = "devops-notification-topic"
+    name = "devops-notification-topic-${random_id.tag.hex}"
 }
 
 resource "oci_devops_project" "supremo-devops-project" {
