@@ -1,9 +1,13 @@
 ## Supremo Rental Quickstart
 
+### 1. Setup baseline infrastructure
 
+Click on the button below to deploy the baseline infrastructure using OCI Resource Manager.
 
-### Module 1: 
-**IMPORTANT**: Must complete the quickstart before following the steps below.
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/howowi/supremo-rental-quickstart/releases/download/v1.9.6/supremo_stack_v1.9.6.zip)
+
+### 2. Deploy frontend application
+**IMPORTANT**: Must complete the baseline infrastructure setup before following the steps below.
 
 #### Github Repository Setup
 
