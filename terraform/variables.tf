@@ -306,7 +306,7 @@ variable "nosql_table_ddl_statement" {
   description = "Nosql table ddl statement"
   type        = string
   #default     = "CREATE TABLE if not exists demo(fullName STRING, contactPhone STRING, ticketNo STRING, confNo STRING,gender  STRING, bagInfo JSON,  PRIMARY KEY ( ticketNo ))"
-  default = "CREATE TABLE CarHealth (carid string, lastservicedate timestamp(6),mileage integer, fueltype string,enginepower string,enginestatus string, transmissiontype string, fuelLevel string, name string, model string, PRIMARY KEY ( carid, lastservicedate ))"
+  default = "CREATE TABLE IF NOT EXISTS CarHealth (carid string, lastservicedate timestamp(6),mileage integer, fueltype string,enginepower string,enginestatus string, transmissiontype string, fuelLevel string, name string, model string, PRIMARY KEY ( carid, lastservicedate ))"
 }
 
 variable "nosql_table_name" {
