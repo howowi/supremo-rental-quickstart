@@ -245,28 +245,28 @@ function MyBookings({ onLogout, userJsonVal, bookingCount }) {
                                                                                         <Container className='carHealthBody'>
                                                                                             <Row>
                                                                                                 <Col style={{ 'height': '150px' }} className='col-sm-4'>
-                                                                                                    <div className="img rounded d-flex align-items-end carlist" style={{ 'backgroundImage': `url(/resources/images/cars/${carDetails[0].carid}.png)`, "width": "200px", "height": "100px", "margin": "auto" }}> </div>
-                                                                                                    <h5 className='carModel-Popup w-100'>{carDetails[0].model + " " + carDetails[0].name}</h5>
+                                                                                                    <div className="img rounded d-flex align-items-end carlist" style={{ 'backgroundImage': `url(/resources/images/cars/${carDetails.carid}.png)`, "width": "200px", "height": "100px", "margin": "auto" }}> </div>
+                                                                                                    <h5 className='carModel-Popup w-100'>{carDetails.model + " " + carDetails.name}</h5>
                                                                                                 </Col>
                                                                                                 <Col style={{ 'backgroundColor': '#1089ff' }} className='p-2'>
                                                                                                     <Container>
                                                                                                         <Row>
                                                                                                             <Col className='col-3'><label className="labelWhiteText">Engine CC</label>
-                                                                                                                <label className='valueWhiteTxt setenceCase'>{carDetails[0].enginepower}</label></Col>
+                                                                                                                <label className='valueWhiteTxt setenceCase'>{carDetails.enginepower}</label></Col>
                                                                                                             <Col className='col-3'><label className="labelWhiteText">Fuel Type</label>
-                                                                                                                <label className='valueWhiteTxt setenceCase'>{carDetails[0].fueltype}</label></Col>
+                                                                                                                <label className='valueWhiteTxt setenceCase'>{carDetails.fueltype}</label></Col>
                                                                                                             <Col className='col-3'><label className="labelWhiteText">Mileage</label>
-                                                                                                                <label className='valueWhiteTxt setenceCase'>{carDetails[0].mileage}</label></Col>
+                                                                                                                <label className='valueWhiteTxt setenceCase'>{carDetails.mileage}</label></Col>
                                                                                                                 <Col className='col-3'></Col>
                                                                                                             <Col className='col-3'><label className="labelWhiteText">Engine Status</label>
-                                                                                                                <label className='valueWhiteTxt setenceCase'>{carDetails[0].enginestatus}</label></Col>
+                                                                                                                <label className='valueWhiteTxt setenceCase'>{carDetails.enginestatus}</label></Col>
                                                                                                             <Col className='col-3'><label className="labelWhiteText">Transmission</label>
-                                                                                                                <label className='valueWhiteTxt setenceCase'>{carDetails[0].transmissiontype}</label></Col>
+                                                                                                                <label className='valueWhiteTxt setenceCase'>{carDetails.transmissiontype}</label></Col>
                                                                                                             <Col className='col-3'><label className="labelWhiteText">Fuel Level</label>
-                                                                                                                <label className='valueWhiteTxt setenceCase'>{carDetails[0].fuelLevel}</label></Col>
+                                                                                                                <label className='valueWhiteTxt setenceCase'>{carDetails.fuelLevel}</label></Col>
 
                                                                                                             <Col className='col-3'><label className="labelWhiteText">Last Service Date</label>
-                                                                                                                <label className='valueWhiteTxt setenceCase'>{carDetails[0].lastservicedate}</label></Col>
+                                                                                                                <label className='valueWhiteTxt setenceCase'>{carDetails.lastservicedate}</label></Col>
 
                                                                                                         </Row>
                                                                                                         <button className="btn py-2 ml-2 forNoSQLIdeadialogBtn" onClick={() => handleOpenNoSQLModal() } ><img src='/resources/images/idea-bulb.svg'/></button>
@@ -359,8 +359,8 @@ function MyBookings({ onLogout, userJsonVal, bookingCount }) {
             </Row>
           </Container>
 
-          {/* <td>{carDetails[0].mileage}</td>
-                        <td>{carDetails[0].enginepower}</td> */}
+          {/* <td>{carDetails.mileage}</td>
+                        <td>{carDetails.enginepower}</td> */}
 
 
         </Modal.Body>
