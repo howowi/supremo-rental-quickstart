@@ -102,7 +102,7 @@ function App(backendData, setShowPopular, setShowFilter, setFilterOptions) {
 
   useEffect(() => {
     // Fetch booking data
-    fetch(`http://<backend_ip>/order-service/user-orders?userid=${getUserId}`)
+    fetch(`http://129.213.108.24/order-service/user-orders?userid=${getUserId}`)
       .then((response) => response.json())
       .then((data) => {
         console.log("Data from server:>> ", data);
@@ -115,7 +115,7 @@ function App(backendData, setShowPopular, setShowFilter, setFilterOptions) {
     // Fetch car data
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`http://<backend_ip>/user-service-redis/users/${getUserId}`);
+        const response = await fetch(`http://129.213.108.24/user-service-redis/users/${getUserId}`);
         const userData = await response.json();
         setUserData(userData);
 

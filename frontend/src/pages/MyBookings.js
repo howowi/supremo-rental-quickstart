@@ -57,7 +57,7 @@ function MyBookings({ onLogout, userJsonVal, bookingCount }) {
         }
     };
     useEffect(() => {
-        fetch(`http://<backend_ip>/user-service-redis/users/${getUserId}`)
+        fetch(`http://129.213.108.24/user-service-redis/users/${getUserId}`)
             .then((response) => response.json())
             .then((data) => {
                 // console.log("from http://146.56.171.43:8081 ", id);
@@ -68,7 +68,7 @@ function MyBookings({ onLogout, userJsonVal, bookingCount }) {
             });
 
         console.log('Fetching data for user ID:', getUserId);
-        fetch(`http://<backend_ip>/order-service/user-orders?userid=${getUserId}`)
+        fetch(`http://129.213.108.24/order-service/user-orders?userid=${getUserId}`)
             .then((response) => response.json())
             .then((data) => {
                 console.log("Data from server:)) ", data);
@@ -121,7 +121,7 @@ function MyBookings({ onLogout, userJsonVal, bookingCount }) {
         console.log("car health check for car id", carId);
         setSelectedCarId(carId);
 
-        fetch(`http://<backend_ip>/car-health/cars/${carId}`)
+        fetch(`http://129.213.108.24/car-health/cars/${carId}`)
             .then((response) => response.json())
             .then((data) => {
                 console.log("Car Details:", data);
