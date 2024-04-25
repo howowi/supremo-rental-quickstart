@@ -23,16 +23,20 @@ Click on the button below to deploy the baseline infrastructure using OCI Resour
 
     ![](img/gh_secrets.png)
 
-5. Press "New repository secret" to create the following secrets. For `OCI_CLI` parameters, refer to the [documentation](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm#configfile) on OCI CLI configuration file setup.
+5. Press "New repository secret" to create the following secrets.
 
-    * OCI_CLI_FINGERPRINT
-    * OCI_CLI_KEY_CONTENT
-    * OCI_CLI_REGION
-    * OCI_CLI_TENANCY
-    * OCI_CLI_USER
-    * OCI_COMPARTMENT_OCID (Refer to [documentation](https://docs.oracle.com/en-us/iaas/Content/GSG/Tasks/contactingsupport_topic-Locating_Oracle_Cloud_Infrastructure_IDs.htm#Finding_the_OCID_of_a_Compartment))
+    * OCI_CLI_FINGERPRINT (obtain from Resource Manager Outputs)
+    * OCI_CLI_KEY_CONTENT (obtain from Resource Manager Outputs)
+    * OCI_CLI_REGION (obtain from Resource Manager Outputs)
+    * OCI_CLI_TENANCY (obtain from Resource Manager Outputs)
+    * OCI_CLI_USER (obtain from Resource Manager Outputs)
+    * OCI_COMPARTMENT_OCID (obtain from Resource Manager Outputs)
     * OCIR_USERNAME (Refer to [documentation](https://docs.oracle.com/en-us/iaas/Content/Registry/Tasks/registrypullingimagesusingthedockercli.htm))
-    * OCI_AUTH_TOKEN (Refer to [documentation](https://docs.oracle.com/en-us/iaas/Content/Registry/Tasks/registrypullingimagesusingthedockercli.htm))
+
+        * **Example for non-federated user**: tenancynamespace/john@oracle.com
+        * **Example for IDCS federated user**: tenancynamespace/oracleidentitycloudservice/john@oracle.com
+
+    * OCI_AUTH_TOKEN (obtain from Resource Manager Outputs)
     * OCI_DEVOPS_PIPELINE_ID (obtain from Resource Manager Outputs)
 
         ![](img/devops_pipeline_id.png)
@@ -64,13 +68,17 @@ Click on the button below to deploy the baseline infrastructure using OCI Resour
 
 1. Navigate to OCI DevOps project.
 
-![](img/devops_project.png)
+    ![](img/devops_project.png)
 
 2. Go to artifact and select "deploy_supremo_react".
 
-![](img/devops_artifacts.png)
+    ![](img/devops_artifacts.png)
 
 3. Copy and paste the content of [deployment_supremo_frontend.yml](deployment/deployment_supremo_frontend.yml) to the artifact and save it.
+
+4. Go to Logs and make sure DevOps logs is enabled
+
+    ![](img/devops_logs.png)
 
 #### Update Code and Run Github Action
 
@@ -80,11 +88,21 @@ Click on the button below to deploy the baseline infrastructure using OCI Resour
 
 2. Search for `<backend_ip>` across all the files in this repository and update it with the value from the previous step. Use OCI Code Editor or your preferred IDE for optimal experience.
 
-2. Commit and push the changes to Github repo main branch.
+3. Commit and push the changes to Github repo main branch.
 
-3. Observe that Github Action will be triggered and OCI Deployment Pipeline will deploy Supremo frontend to OKE cluster.
+4. Observe that Github Action will be triggered and OCI Deployment Pipeline will deploy Supremo frontend to OKE cluster.
 
-4. After deployment is completed, validate that the Supremo app is accessible. Get the public IP of the load balancer by running the command below:
-```
-kubectl get svc -n supremo
-```
+5. Navigate to OCI DevOps project and click on the deployment
+
+    ![](img/devops_deployment.png)
+
+6. Under Deployment Progress, click on the 3 dots of `Wait for approval`, press `Approve`.
+
+    ![](img/devops_approval.png)
+
+7. After deployment is completed, validate that the Supremo app is accessible. Get the public IP of the load balancer by running the command below:
+    ```
+    kubectl get svc -n supremo
+    ```
+
+    ![](img/k8s_public_ip.png)

@@ -6,6 +6,12 @@ resource "oci_identity_api_key" "user_api_key" {
   user_id   = var.user_ocid
 }
 
+# Create Auth Token for Container Registry
+resource "oci_identity_auth_token" "user_auth_token" {
+  description = "for OCI Container Registry"
+  user_id = var.user_ocid
+}
+
 output "identity_user_fingerprint" {
   value = oci_identity_api_key.user_api_key.fingerprint
 }
