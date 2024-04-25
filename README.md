@@ -39,7 +39,7 @@ Click on the button below to deploy the baseline infrastructure using OCI Resour
     * OCI_AUTH_TOKEN (obtain from Resource Manager Outputs)
     * OCI_DEVOPS_PIPELINE_ID (obtain from Resource Manager Outputs)
 
-        ![](img/devops_pipeline_id.png)
+    ![](img/orm_outputs_github.png)
 
 #### OKE Setup
 
@@ -82,7 +82,7 @@ Click on the button below to deploy the baseline infrastructure using OCI Resour
 
 #### Update Code and Run Github Action
 
-1.  Obtain the IP address of the backend serverfrom Resource Manager Outputs.
+1.  Obtain the IP address of the backend server from Resource Manager Outputs.
 
     ![](img/backend_ip_addr.png)
 

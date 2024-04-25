@@ -8,6 +8,7 @@ resource "oci_identity_api_key" "user_api_key" {
 
 # Create Auth Token for Container Registry
 resource "oci_identity_auth_token" "user_auth_token" {
+  provider       = oci.homeregion
   description = "for OCI Container Registry"
   user_id = var.user_ocid
 }

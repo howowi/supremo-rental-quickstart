@@ -66,16 +66,16 @@ locals {
 }
 
 # API endpoints output
-output "api_demos" {
-  value = {
-    car_service_redis  = "http://${local.ip_address}/car-service-redis/cars",
-    car_service        = "http://${local.ip_address}/car-service/cars",
-    user_service_redis = "http://${local.ip_address}/user-service-redis/users",
-    user_service       = "http://${local.ip_address}/user-service/users",
-    order_search       = "http://${local.ip_address}/order-service/orders",
-    car_health         = "http://${local.ip_address}/car-health/cars/t001"
-  }
-}
+# output "api_demos" {
+#   value = {
+#     car_service_redis  = "http://${local.ip_address}/car-service-redis/cars",
+#     car_service        = "http://${local.ip_address}/car-service/cars",
+#     user_service_redis = "http://${local.ip_address}/user-service-redis/users",
+#     user_service       = "http://${local.ip_address}/user-service/users",
+#     order_search       = "http://${local.ip_address}/order-service/orders",
+#     car_health         = "http://${local.ip_address}/car-health/cars/t001"
+#   }
+# }
 
 output "endpoint_of_car_service_redis" {
   value = "http://${local.ip_address}/car-service-redis/cars"
@@ -109,6 +109,7 @@ output OCI_CLI_FINGERPRINT {
 
 output OCI_CLI_KEY_CONTENT {
   value = tls_private_key.public_private_key_pair.private_key_pem
+  sensitive = true
 }
 
 output OCI_CLI_REGION {

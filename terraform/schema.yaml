@@ -811,21 +811,152 @@ variables:
 ############################
 ####     OUTPUT
 ############################
+
+outputs:
+  OCI_CLI_FINGERPRINT:
+    type: copyableString
+    title: "OCI_CLI_FINGERPRINT"
+
+  OCI_CLI_KEY_CONTENT:
+    sensitive: true
+    type: copyableString
+    title: "OCI_CLI_KEY_CONTENT"
+
+  OCI_CLI_REGION:
+    type: copyableString
+    title: "OCI_CLI_REGION"
+
+  OCI_CLI_TENANCY:
+    type: copyableString
+    title: "OCI_CLI_TENANCY"
+  
+  OCI_CLI_USER:
+    type: copyableString
+    title: "OCI_CLI_USER"
+  
+  OCI_COMPARTMENT_OCID:
+    type: copyableString
+    title: "OCI_COMPARTMENT_OCID"
+
+  OCI_AUTH_TOKEN:
+    type: copyableString
+    title: "OCI_AUTH_TOKEN"
+    sensitive: true
+
+  OCI_DEVOPS_PIPELINE_ID:
+    type: copyableString
+    title: "OCI_DEVOPS_PIPELINE_ID"
+
+  service_vm_public_ip:
+    type: copyableString
+    title: "service_vm_public_ip"
+
+  service_vm_private_ip:
+    type: copyableString
+    title: "service_vm_private_ip"
+  
+  adb_connection_strings:
+    type: copyableString
+    title: "adb_connection_strings"
+    sensitive: true
+
+  opensearch_api_endpoint:
+    type: link
+    title: "opensearch_api_endpoint"
+
+  opensearch_api_private_ip:
+    type: copyableString
+    title: "opensearch_api_private_ip"
+
+  opensearch_dashboards_api_endpoint:
+    type: link
+    title: "opensearch_dashboards_api_endpoint"
+
+  opensearch_dashboard_private_ip:
+    type: copyableString
+    title: "opensearch_dashboard_private_ip"
+
+  redis_primay_endpoint:
+    type: copyableString
+    title: "redis_primay_endpoint"
+
+  redis_primay_endpoint_ip:
+    type: copyableString
+    title: "redis_primay_endpoint_ip"
+
+  nosql_compartment:
+    type: copyableString
+    title: "nosql_compartment"
+
+  postgresql_primary_db_endpoint:
+    type: json
+    title: "postgresql_primary_db_endpoint"
+
+  pg_load_balancer_ip:
+    type: json
+    title: "pg_load_balancer_ip"
+
+  endpoint_of_car_service_redis:
+    type: link
+    title: "endpoint_of_car_service_redis"
+
+  car_service:
+    type: link
+    title: "car_service"
+
+  user_service_redis:
+    type: link
+    title: "user_service_redis"
+
+  user_service:
+    type: link
+    title: "user_service"
+
+  order_search:
+    type: link
+    title: "order_search"
+
+  car_health:
+    type: link
+    title: "car_health"
+
+  
+
 outputGroups:
-  - title: "Compute Instance"
+  - title: OCI CLI Secret Variables for Github Actions
     outputs:
-      - service_vm_public_ip
-      - service_vm_private_ip
-  - title: "Opensearch"
+      - ${OCI_CLI_FINGERPRINT}
+      - ${OCI_CLI_KEY_CONTENT}
+      - ${OCI_CLI_REGION}
+      - ${OCI_CLI_TENANCY}
+      - ${OCI_CLI_USER}
+      - ${OCI_COMPARTMENT_OCID}
+      - ${OCI_AUTH_TOKEN}
+      - ${OCI_DEVOPS_PIPELINE_ID}
+
+  - title: Backend Server IP Address
     outputs:
-      - opensearch_api_private_ip
-      - opensearch_dashboard_private_ip
-      - opensearch_api_endpoint
-      - opensearch_dashboards_api_endpoint
-  - title: "Redis"
+      - ${service_vm_private_ip}
+      - ${service_vm_public_ip}
+
+  - title: Database Details
     outputs:
-      - redis_primay_endpoint
-      - redis_primay_endpoint_ip
-  - title: "OCI DevOps Pipeline ID"
-    outputs:
-      - oci-devops-pipeline-id
+      - ${adb_connection_strings}
+      - ${opensearch_api_endpoint}
+      - ${opensearch_api_private_ip}
+      - ${opensearch_dashboards_api_endpoint}
+      - ${opensearch_dashboard_private_ip}
+      - ${redis_primay_endpoint}
+      - ${redis_primay_endpoint_ip}
+      - ${nosql_compartment}
+      - ${postgresql_primary_db_endpoint}
+      - ${pg_load_balancer_ip}
+
+  - title: Backend API Endpoint Details
+    outputs: 
+      - ${endpoint_of_car_service_redis}
+      - ${car_service}
+      - ${user_service_redis}
+      - ${user_service}
+      - ${order_search}
+      - ${car_health}
