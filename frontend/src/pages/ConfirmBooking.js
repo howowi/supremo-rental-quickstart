@@ -31,7 +31,7 @@ function ConfirmBooking() {
 
 
     useEffect(() => {
-      fetch(`${process.env.REACT_APP_CARLIST_URL}/${id}`)
+      fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/car-service-redis/cars/${id}`)
         .then((response) => response.json())
         .then((data) => {
           // console.log("from http://146.56.171.43:8081 ", id);
@@ -43,7 +43,7 @@ function ConfirmBooking() {
     }, [id]);
 
     useEffect(() => {
-      fetch(`http://140.238.204.249/user-service-redis/users/${getUserId}`)
+      fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/user-service-redis/users/${getUserId}`)
           .then((response) => response.json())
           .then((data) => {
             // console.log("from http://146.56.171.43:8081 ", id);
@@ -57,7 +57,7 @@ function ConfirmBooking() {
 
     useEffect(() => {
       console.log('Fetching data for user ID:', getUserId);
-      fetch(`http://140.238.204.249/order-service/user-orders?userid=${getUserId}`)
+      fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/order-service/user-orders?userid=${getUserId}`)
           .then((response) => response.json())
           .then((data) => {
               console.log("Data from server:)) ", data);

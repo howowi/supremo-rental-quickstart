@@ -20,7 +20,7 @@ function AskMe({ onLogout, userJsonVal, bookingCount }) {
     useEffect(() => {
         if (getUserId) {
             console.log('Fetching data for user ID:', getUserId);
-            fetch(`http://140.238.204.249/order-service/user-orders?userid=${getUserId}`)
+            fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/order-service/user-orders?userid=${getUserId}`)
                 .then((response) => response.json())
                 .then((data) => {
                     console.log("Data from server:)) ", data);
@@ -47,6 +47,13 @@ function AskMe({ onLogout, userJsonVal, bookingCount }) {
         setSearchValue(event.target.value);
         //setSearchValue(searchText);
     }
+
+
+    const onKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            handleOpenSearch();
+        }
+    };
 
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -78,7 +85,7 @@ function AskMe({ onLogout, userJsonVal, bookingCount }) {
             redirect: 'follow'
         };
 
-        fetch("http://140.238.204.249/askme-search", requestOptions)
+        fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/askme-search`, requestOptions)
             .then(response => response.json())
             .then(result => {
                 console.log(result);
@@ -105,6 +112,7 @@ function AskMe({ onLogout, userJsonVal, bookingCount }) {
     const handleCloseIdeaModal = () => { setShowIdeaModal(false); };
 
 
+
     return (
         <>
            
@@ -125,7 +133,7 @@ function AskMe({ onLogout, userJsonVal, bookingCount }) {
                                                     <span className=''> </span>
                                                 </div>
                                                 <FormGroup className="col-md-7">
-                                                    <FormControl type="text" placeholder="Search - Opensearch" className="searchTxt" value={searchValue} onChange={onChange} />
+                                                    <FormControl type="text" placeholder="Search - Opensearch" className="searchTxt" value={searchValue} onChange={onChange} onKeyDown={onKeyDown} />
                                                 </FormGroup>{' '}
                                                 <Button className="col-md-2 btn btn-secondary" onClick={() => handleOpenSearch(searchValue)}>Submit</Button>
                                                 <div className='col-md-1'></div>

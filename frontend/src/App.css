@@ -680,3 +680,42 @@ tr.expanded {
 .carHealthBody img {
   width: 100%;
 }
+
+.paginationBtn {
+  padding: 3px 10px !important;
+  border-radius: 0 !important;
+}
+
+.paginationBtnNumb {
+  padding: 3px 10px !important;
+  border-radius: 0 !important;
+  margin-right: 3px;
+}
+
+.btnPrev{
+  margin-right: 3px;
+}
+
+.currentPage {
+  background-color: #1089ff !important;
+  border: 1px solid #1089ff !important;
+  padding: 5px 10px !important;
+  border-radius: 50% !important;
+  width: 30px;
+  height: 30px;
+}
+
+.searchOrderDetails {
+  margin-top: -75px;
+  display: block;
+  position: relative;
+  float: right;
+  right: 50px;
+  padding: 5px;
+  border-radius: 3px;
+  border: 0px;
+}
+
+.cardetailsForm {
+  height: 90px;
+}

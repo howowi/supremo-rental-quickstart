@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom'; // Import createRoot instead of ReactDOM
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -42,9 +42,9 @@ const AppContainer = () => {
   );
 };
 
-ReactDOM.render(
+// Use createRoot instead of ReactDOM.render
+createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AppContainer />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );

@@ -29,7 +29,7 @@ const TopNavBarN = ({ onLogout, userJsonVal, bookingCount, clearFilters }) => {
       setUserID(userId);
       console.log('Fetching data for user ID:', userJsonVal.userid);
 
-      fetch(`http://140.238.204.249/order-service/user-orders?userid=${userId}`)
+      fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/order-service/user-orders?userid=${userId}`)
         .then((response) => response.json())
         .then((data) => {
           console.log("Data from server:", data.length);
@@ -47,7 +47,7 @@ const TopNavBarN = ({ onLogout, userJsonVal, bookingCount, clearFilters }) => {
       setUserID(userId);
       console.log('Fetching data for user ID: > ', userId);
 
-      fetch(`http://140.238.204.249/order-service/user-orders?userid=${userId}`)
+      fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/order-service/user-orders?userid=${userId}`)
         .then((response) => response.json())
         .then((data) => {
           console.log("Data from server:>> ", data);

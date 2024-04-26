@@ -43,7 +43,7 @@ function CarDetails({ setBookingDetails }) {
 
   useEffect(() => {
     console.log('Fetching data for user ID:', getUserId);
-    fetch(`http://140.238.204.249/order-service/user-orders?userid=${getUserId}`)
+    fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/order-service/user-orders?userid=${getUserId}`)
         .then((response) => response.json())
         .then((data) => {
             console.log("Data from server:)) ", data);
@@ -55,7 +55,7 @@ function CarDetails({ setBookingDetails }) {
 }, [getUserId]);   
 
 useEffect(() => {
-  fetch(`http://140.238.204.249/user-service-redis/users/${getUserId}`)
+  fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/user-service-redis/users/${getUserId}`)
     .then((response) => response.json())
     .then((data) => {
       // console.log("from http://146.56.171.43:8081 ", id);

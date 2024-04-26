@@ -96,13 +96,13 @@ function App(backendData, setShowPopular, setShowFilter, setFilterOptions) {
   };
 
   // 
-
+  console.log("dot env variable ", process.env.REACT_APP_BACKEND_SERVICE_IP);
   // const [backendBookingData, setBackendBookingData] = useState([]);
   // const [filteredDataCars, setFilteredDataCars] = useState([]);
 
   useEffect(() => {
     // Fetch booking data
-    fetch(`http://140.238.204.249/order-service/user-orders?userid=${getUserId}`)
+    fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/order-service/user-orders?userid=${getUserId}`)
       .then((response) => response.json())
       .then((data) => {
         console.log("Data from server:>> ", data);
@@ -115,11 +115,17 @@ function App(backendData, setShowPopular, setShowFilter, setFilterOptions) {
     // Fetch car data
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`http://140.238.204.249/user-service-redis/users/${getUserId}`);
-        const userData = await response.json();
+        const userResponse = await fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/user-service-redis/users/${getUserId}`);
+        if (!userResponse.ok) {
+          throw new Error('Failed to fetch user data');
+        }
+        const userData = await userResponse.json();
         setUserData(userData);
-
-        const carListResponse = await fetch(process.env.REACT_APP_CARLIST_URL);
+    
+        const carListResponse = await fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/car-service-redis/cars`);
+        if (!carListResponse.ok) {
+          throw new Error('Failed to fetch car data');
+        }
         const carListData = await carListResponse.json();
         setBackendDataCars(carListData);
         setFilteredDataCars(carListData);
@@ -127,6 +133,7 @@ function App(backendData, setShowPopular, setShowFilter, setFilterOptions) {
         console.error('Error fetching data:', error.message);
       }
     };
+    
 
     if (getUserId) {
       fetchUserData();

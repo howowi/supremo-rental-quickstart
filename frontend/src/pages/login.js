@@ -48,7 +48,7 @@ const Login = () => {
     // myHeaders.append("Content-Type", "application/json",);
     // let raw = JSON.stringify({ userid: username, password });
 
-    // const response = await fetch("http://140.238.204.249/user-service-redis/authn", {
+    // const response = await fetch("${process.env.REACT_APP_BACKEND_SERVICE_IP}/user-service-redis/authn", {
     //   method: 'POST',
     //   mode: 'cors', // this cannot be 'no-cors'
     //   headers: {
