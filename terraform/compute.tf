@@ -137,4 +137,28 @@ resource "oci_core_instance" "service_instance" {
     destination = "/home/opc/opensearch-init"
   }
 
+  # Copy loadtest scripts to the VM
+  provisioner "file" {
+    connection {
+      type        = "ssh"
+      user        = "opc"
+      private_key = tls_private_key.public_private_key_pair.private_key_pem
+      host        = self.public_ip
+    }
+    source      = "./load-test"
+    destination = "/home/opc/load-test"
+  }
+
+  # Copy private key to .oci_docker for application use.
+  provisioner "file" {
+    connection {
+      type        = "ssh"
+      user        = "opc"
+      private_key = tls_private_key.public_private_key_pair.private_key_pem
+      host        = self.public_ip
+    }
+    source      = "${path.module}/private_key.pem"
+    destination = "/home/opc/.oci_docker/car_demo.pem"
+  } 
+
 }
