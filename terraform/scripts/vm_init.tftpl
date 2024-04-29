@@ -56,13 +56,13 @@ su opc -lc "echo VM_Intialization_Begins... >> /home/opc/app-init.out 2>&1" || t
    systemctl daemon-reload;
    systemctl restart nginx;
    su opc -lc "echo Set_Envs... >> /home/opc/app-init.out 2>&1" || true;
-   su opc -lc "chmod 400 ~/.oci_docker/*" || true;
-   su opc -lc "chmod 400 ~/.oci/*" || true;
    su opc -lc "sed -i 's/\s*=\s*/=/g' ~/app.env";
    su opc -lc "chmod +x ~/app.env";
    su opc -lc "chmod +x ~/db-init/*.sh";
    su opc -lc "echo Generate_OCI_Config... >> /home/opc/app-init.out 2>&1" || true;
    su opc -lc "~/db-init/oci-config.sh >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "chmod 400 ~/.oci_docker/*" || true;
+   su opc -lc "chmod 400 ~/.oci/*" || true;
    su opc -lc "echo Init_AJD... >> /home/opc/app-init.out 2>&1" || true;
    su opc -lc "~/db-init/ajd-init.sh >> /home/opc/app-init.out 2>&1" || true;
    su opc -lc "echo Init_PG... >> /home/opc/app-init.out 2>&1" || true;
