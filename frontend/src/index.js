@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createRoot } from 'react-dom'; // Import createRoot instead of ReactDOM
+import { createRoot } from 'react-dom/client'; // Import createRoot instead of ReactDOM
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';

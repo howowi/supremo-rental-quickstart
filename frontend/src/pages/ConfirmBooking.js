@@ -118,7 +118,7 @@ function ConfirmBooking() {
                     <div className="col-md-12">
                       <div className="row no-gutters">
                       
-                        <div className="col-md-4 d-flex align-items-center bg-primary">
+                        <div className="col-md-4 d-flex align-items-top bg-primary" style={{minHeight: '575px'}}>
                           
                                       <form action="#" className="request-form bg-primary fadeInUp text-left w-100 cardetailsForm">
                                     <h2>Vehicle Details</h2> 

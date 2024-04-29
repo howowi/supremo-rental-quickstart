@@ -50,7 +50,7 @@ function App(backendData, setShowPopular, setShowFilter, setFilterOptions) {
   const history = useNavigate();
   const location = useLocation();
   const getUserId = localStorage.getItem('userid');
-  console.log("getUserId ", getUserId);
+  // console.log("getUserId ", getUserId);
 
 
   const [userData, setUserData] = useState([]);
@@ -96,7 +96,7 @@ function App(backendData, setShowPopular, setShowFilter, setFilterOptions) {
   };
 
   // 
-  console.log("dot env variable ", process.env.REACT_APP_BACKEND_SERVICE_IP);
+  //console.log("dot env variable ", process.env.REACT_APP_BACKEND_SERVICE_IP);
   // const [backendBookingData, setBackendBookingData] = useState([]);
   // const [filteredDataCars, setFilteredDataCars] = useState([]);
 
@@ -105,7 +105,7 @@ function App(backendData, setShowPopular, setShowFilter, setFilterOptions) {
     fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/order-service/user-orders?userid=${getUserId}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Data from server:>> ", data);
+        // console.log("Data from server:>> ", data);
         setBackendBookingData(data);
       })
       .catch((err) => {

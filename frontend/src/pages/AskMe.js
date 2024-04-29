@@ -43,24 +43,15 @@ function AskMe({ onLogout, userJsonVal, bookingCount }) {
     };
 
     const [searchValue, setSearchValue] = useState('');
-    const onChange = (event) => {
-        setSearchValue(event.target.value);
-        //setSearchValue(searchText);
-    }
 
 
-    const onKeyDown = (event) => {
-        if (event.key === 'Enter') {
-            handleOpenSearch();
-        }
-    };
 
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const handleOpenSearch = () => {
         setLoading(true);
-
+        console.log("searchValue ", searchValue);
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Basic b3BlbnNlYXJjaDpPcmFjbGUjMTIz");
@@ -101,6 +92,23 @@ function AskMe({ onLogout, userJsonVal, bookingCount }) {
     };
 
 
+    const onSearchText = (event) => {
+        const query = event.target.value.trim();
+        console.log("search query is the ", query);
+        setSearchValue(query);
+        console.log("searchValue onchange ", searchValue);
+        //setSearchValue(searchText);
+    }
+
+
+    const onKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            handleOpenSearch();
+        }
+    };
+
+
+
     const handleOpenModal = () => {
         setShowModal(true);
     };
@@ -132,10 +140,18 @@ function AskMe({ onLogout, userJsonVal, bookingCount }) {
                                                 <div className="col-md-2"><span className="askMeTxt"><FontAwesomeIcon icon="fa-solid fa-handshake-angle" /> Ask Me</span>
                                                     <span className=''> </span>
                                                 </div>
-                                                <FormGroup className="col-md-7">
-                                                    <FormControl type="text" placeholder="Search - Opensearch" className="searchTxt" value={searchValue} onChange={onChange} onKeyDown={onKeyDown} />
+                                                <div className="col-md-7">
+                                                <input type="text" value={searchValue} onChange={onSearchText} onKeyDown={onKeyDown} placeholder="Search - Opensearch" className='searchTxt col-sm-12' />
+                                                </div>
+                                                <div className="col-md-2">
+                                                <button className=" btn btn-secondary" onClick={() => handleOpenSearch()}  onKeyDown={onKeyDown} type='button'>Submit</button>
+                                                </div>
+
+
+                                                {/* <FormGroup className="col-md-7">
+                                                    <FormControl type="text" placeholder="Search - Opensearch" value={searchValue} className="searchTxt" onChange={onSearchText} onKeyDown={onKeyDown} />
                                                 </FormGroup>{' '}
-                                                <Button className="col-md-2 btn btn-secondary" onClick={() => handleOpenSearch(searchValue)}>Submit</Button>
+                                                <Button className="col-md-2 btn btn-secondary" onClick={() => handleOpenSearch(searchValue)}>Submit</Button> */}
                                                 <div className='col-md-1'></div>
                                                 
                                             </div>

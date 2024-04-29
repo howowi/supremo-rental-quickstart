@@ -339,16 +339,17 @@
 }
 .noOfOrder {
   background-color: #ae0000;
-  width: 25px;
+  width: fit-content;
   height: 25px;
   display: inline-block;
   padding: 3px;
   text-align: center;
-  border-radius: 50%;
+  /* border-radius: 50%; */
   color: #FFF;
   font-size: .8rem;
   line-height: 20px;
   position: relative;
+  min-width: 30px;
 }
 .askMeTxt {
   font-size: 1.3rem;
@@ -552,7 +553,7 @@ tr.expanded {
   top: 6px;
 }
 .request-form {
-  padding: 30px 30px 0 30px !important;
+  padding: 30px 30px 15px 30px !important;
 }
 .labelWhiteText {
   display: block;
@@ -718,4 +719,7 @@ tr.expanded {
 
 .cardetailsForm {
   height: 90px;
+}
+input:focus {
+  outline: none;
 }
