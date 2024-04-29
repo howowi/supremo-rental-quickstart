@@ -3,6 +3,7 @@
 su opc -lc "echo VM_Intialization_Begins... >> /home/opc/app-init.out 2>&1" || true;
    su opc -lc "mkdir -p ~/wallet/";
    su opc -lc "mkdir -p ~/.oci/";
+   su opc -lc "mkdir -p ~/.oci_docker/";
    su opc -lc "echo Increase_VM_Boot_Volume... >> /home/opc/app-init.out 2>&1" || true;
    /usr/libexec/oci-growfs -y || true;
    su opc -lc "echo Disable_SELinux_Firewalld... >> /home/opc/app-init.out 2>&1" || true;
@@ -13,6 +14,12 @@ su opc -lc "echo VM_Intialization_Begins... >> /home/opc/app-init.out 2>&1" || t
    (yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y >> /home/opc/app-init.out 2>&1) || true;
    sed -i 's/"container-registry.oracle.com"\s*,\s*//g' /etc/containers/registries.conf;
    systemctl enable docker && systemctl start docker;
+   su opc -lc "echo Install_Load_Test_Tools... >> /home/opc/app-init.out 2>&1" || true;
+   yum install pip -y >> /home/opc/app-init.out 2>&1 || true;
+   su opc -lc "pip install pip -U >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "pip install psycopg2-binary >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "echo Install OCI... >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "pip install oci-cli >> /home/opc/app-init.out 2>&1" || true;
    su opc -lc "echo Install_Git... >> /home/opc/app-init.out 2>&1" || true;
    yum install git -y >> /home/opc/app-init.out 2>&1;
    su opc -lc "echo Install_Nginx... >> /home/opc/app-init.out 2>&1" || true;
@@ -49,7 +56,8 @@ su opc -lc "echo VM_Intialization_Begins... >> /home/opc/app-init.out 2>&1" || t
    systemctl daemon-reload;
    systemctl restart nginx;
    su opc -lc "echo Set_Envs... >> /home/opc/app-init.out 2>&1" || true;
-   su opc -lc "chmod 600 ~/.oci/conf" || true;
+   su opc -lc "chmod 400 ~/.oci_docker/*" || true;
+   su opc -lc "chmod 400 ~/.oci/*" || true;
    su opc -lc "sed -i 's/\s*=\s*/=/g' ~/app.env";
    su opc -lc "chmod +x ~/app.env";
    su opc -lc "chmod +x ~/db-init/*.sh";
