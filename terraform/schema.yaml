@@ -138,6 +138,8 @@ variableGroups:
       - oke_shape_ocpus
       - oke_shape_mems
       - oke_image_os_id
+      - OCIR_USERNAME
+      - OCIR_URL
 
 variables:
   region:
@@ -807,6 +809,18 @@ variables:
        compartmentId: ${compartment_ocid}
        operatingSystem: "Oracle Linux"
        shape: ${oke_node_shape}
+
+  OCIR_USERNAME:
+    title: "Username for OCI Container Registry"
+    required: true
+    type: string
+    description: "Example for non-federated user - tenancynamespace/john@oracle.com , Example for federated user - tenancynamespace/oracleidentitycloudservice/john@oracle.com"
+
+  OCIR_URL:
+    title: "URL of OCI Container Registry"
+    required: true
+    type: string
+    description: "(region_code).ocir.io, eg. sin.ocir.io"
 
 ############################
 ####     OUTPUT

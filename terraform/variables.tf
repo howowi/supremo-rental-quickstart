@@ -610,3 +610,11 @@ variable "oke_shape_mems" {
 variable "oke_image_os_id" {
   description = "OS Image OCID of the node pool"
 }
+
+variable "OCIR_USERNAME" {
+  description = "Example for non-federated user - tenancynamespace/john@oracle.com , Example for federated user - tenancynamespace/oracleidentitycloudservice/john@oracle.com"
+}
+
+variable "OCIR_URL" {
+  description = "<region_code>.ocir.io, eg. sin.ocir.io"
+}
