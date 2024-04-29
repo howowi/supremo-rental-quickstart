@@ -13,10 +13,6 @@ jobs:
       OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
       OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
       OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
-      REACT_APP_CARLIST_URL: http://140.238.204.249/car-service-redis/cars
-      REACT_APP_CARAPP_LOGINAUTH_URL: http://140.238.204.249/user-service-redis/authn
-      REACT_APP_GET_USER_BY_ID: http://140.238.204.249/user-service-redis/users/
-      REACT_APP_CREATE_ORDER_API: http://140.238.204.249/order-service/create-order
       REACT_APP_BACKEND_SERVICE_IP: http://140.238.204.249
 
     runs-on: ubuntu-latest
