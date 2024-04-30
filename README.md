@@ -41,6 +41,10 @@ Click on the button below to deploy the baseline infrastructure using OCI Resour
 
     ![](img/orm_outputs_github.png)
 
+6. On the same page, click on "Variables" and click "New repository variable" to add "BACKEND_IP" variable. Obtain the backend IP address from Resource Manager Outputs.
+
+    ![](img/gh_vars.png)
+
 #### OKE Setup
 
 1. Create ephemeral network definition on Cloud Shell to acccess the private OKE cluster. Alternatively, use OCI Bastion.
