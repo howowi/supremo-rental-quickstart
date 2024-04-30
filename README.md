@@ -86,25 +86,19 @@ Click on the button below to deploy the baseline infrastructure using OCI Resour
 
 #### Update Code and Run Github Action
 
-1.  Obtain the IP address of the backend server from Resource Manager Outputs.
+1. Commit and push the code to Github repo main branch.
 
-    ![](img/backend_ip_addr.png)
+2. Observe that Github Action will be triggered and OCI Deployment Pipeline will deploy Supremo frontend to OKE cluster.
 
-2. Search for `<backend_ip>` across all the files in this repository and update it with the value from the previous step. Use OCI Code Editor or your preferred IDE for optimal experience.
-
-3. Commit and push the changes to Github repo main branch.
-
-4. Observe that Github Action will be triggered and OCI Deployment Pipeline will deploy Supremo frontend to OKE cluster.
-
-5. Navigate to OCI DevOps project and click on the deployment
+3. Navigate to OCI DevOps project and click on the deployment
 
     ![](img/devops_deployment.png)
 
-6. Under Deployment Progress, click on the 3 dots of `Wait for approval`, press `Approve`.
+4. Under Deployment Progress, click on the 3 dots of `Wait for approval`, press `Approve`.
 
     ![](img/devops_approval.png)
 
-7. After deployment is completed, validate that the Supremo app is accessible. Get the public IP of the load balancer by running the command below:
+5. After deployment is completed, validate that the Supremo app is accessible. Get the public IP of the load balancer by running the command below:
     ```
     kubectl get svc -n supremo
     ```
