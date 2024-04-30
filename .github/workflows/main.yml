@@ -13,7 +13,7 @@ jobs:
       OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
       OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
       OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
-      REACT_APP_BACKEND_SERVICE_IP: http://140.238.204.249
+      REACT_APP_BACKEND_SERVICE_IP: ${{ vars.BACKEND_IP }}
 
     runs-on: ubuntu-latest
     steps:
