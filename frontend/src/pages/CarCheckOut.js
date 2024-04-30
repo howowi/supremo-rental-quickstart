@@ -55,7 +55,7 @@ function CarCheckOut({ bookingDetails }) {
 
 
   useEffect(() => {
-    fetch("http://<backend_ip>/car-service-redis/cars" + `/${id}`)
+    fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/car-service-redis/cars/${id}`)
       .then((response) => response.json())
       .then((data) => {
         // console.log("from http://146.56.171.43:8081 ", id);
@@ -68,7 +68,7 @@ function CarCheckOut({ bookingDetails }) {
 
   useEffect(() => {
     console.log('Fetching data for user ID:', getUserId);
-    fetch(`http://<backend_ip>/order-service/user-orders?userid=${getUserId}`)
+    fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/order-service/user-orders?userid=${getUserId}`)
       .then((response) => response.json())
       .then((data) => {
         console.log("Data from server:)) ", data);
@@ -80,7 +80,7 @@ function CarCheckOut({ bookingDetails }) {
   }, [getUserId]);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_GET_USER_BY_ID}${getUserId}`)
+    fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}user-service-redis/users/${getUserId}`)
       .then((response) => response.json())
       .then((data) => {
         // console.log("from http://146.56.171.43:8081 ", id);
@@ -93,7 +93,7 @@ function CarCheckOut({ bookingDetails }) {
   //console.log("userDataN ", userDataN);
 
   useEffect(() => {
-    fetch(`http://<backend_ip>/user-service-redis/users/${getUserId}`)
+    fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/user-service-redis/users/${getUserId}`)
       .then((response) => response.json())
       .then((data) => {
         // console.log("from http://146.56.171.43:8081 ", id);
@@ -154,8 +154,8 @@ function CarCheckOut({ bookingDetails }) {
 
   const handleCheckout = async () => {
     // Call your authentication API with username and password
-    //console.log("api calling ", process.env.REACT_APP_CREATE_ORDER_API);
-    const response = await fetch("http://<backend_ip>/order-service/create-order", {
+    
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/order-service/create-order`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

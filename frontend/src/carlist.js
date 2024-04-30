@@ -136,7 +136,7 @@ const CarList = ({ backendData}) => {
     <div className='carListSection'>
       <section className="ftco-section ftco-no-pt bg-light">
         <div className="container">
-          <h2>Car List</h2>
+          {/* <h2>Car List</h2> */}
           <div className="row">
             <div className='col-md-12 d-flex align-items-start'>
               <Button className="col-md-2 btn btn-datk" onClick={handleFilterClick}>Show Filter</Button>

@@ -27,12 +27,12 @@ const TopNavBarN = ({ onLogout, userJsonVal, bookingCount, clearFilters }) => {
     if (userJsonVal && userJsonVal.userid) {
       const userId = userJsonVal.userid;
       setUserID(userId);
-      console.log('Fetching data for user ID:', userJsonVal.userid);
+      // console.log('Fetching data for user ID:', userJsonVal.userid);
 
-      fetch(`http://<backend_ip>/order-service/user-orders?userid=${userId}`)
+      fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/order-service/user-orders?userid=${userId}`)
         .then((response) => response.json())
         .then((data) => {
-          console.log("Data from server:", data.length);
+          // console.log("Data from server:", data.length);
           setBackendData(data.length);
         })
         .catch((err) => {
@@ -45,12 +45,12 @@ const TopNavBarN = ({ onLogout, userJsonVal, bookingCount, clearFilters }) => {
     if (userJsonVal && userJsonVal.userid) {
       const userId = userJsonVal.userid;
       setUserID(userId);
-      console.log('Fetching data for user ID: > ', userId);
+      // console.log('Fetching data for user ID: > ', userId);
 
-      fetch(`http://<backend_ip>/order-service/user-orders?userid=${userId}`)
+      fetch(`${process.env.REACT_APP_BACKEND_SERVICE_IP}/order-service/user-orders?userid=${userId}`)
         .then((response) => response.json())
         .then((data) => {
-          console.log("Data from server:>> ", data);
+          // console.log("Data from server:>> ", data);
           setBackendData(data);
         })
         .catch((err) => {
@@ -67,7 +67,7 @@ const TopNavBarN = ({ onLogout, userJsonVal, bookingCount, clearFilters }) => {
     }
   }, [userID, history]);
 
-  console.log("before login userid is ", userID)
+  // console.log("before login userid is ", userID)
 
   if (!getUserId) {
     // If getUserId is null, user is not logged in
@@ -117,7 +117,7 @@ const TopNavBarN = ({ onLogout, userJsonVal, bookingCount, clearFilters }) => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <LinkContainer to="/" onClick={clearFilters}>
+              <LinkContainer to="/">
                 <Nav.Link>Home</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/AboutUs">
