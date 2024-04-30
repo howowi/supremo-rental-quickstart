@@ -58,7 +58,7 @@ resource "oci_core_instance" "service_instance" {
       compartment_ocid = var.compartment_ocid,
       fingerprint      = oci_identity_api_key.user_api_key.fingerprint,
 
-      adb_db_name         = var.adb_db_name,
+      adb_db_name         = local.adb_db_name,
       adb_admin_password  = var.adb_admin_password,
       adb_wallet_password = var.adb_wallet_password,
 
@@ -160,5 +160,36 @@ resource "oci_core_instance" "service_instance" {
     source      = "${path.module}/private_key.pem"
     destination = "/home/opc/.oci_docker/car_demo.pem"
   } 
-
 }
+
+# resource "oci_core_instance" "bastion_instance" {
+#   count               = 1
+#   availability_domain = var.availability_domain_name == "" ? data.oci_identity_availability_domains.ADs.availability_domains[0]["name"] : var.availability_domain_name
+#   compartment_id      = var.compartment_ocid
+#   display_name        = "bastion-instance-${random_id.tag.hex}"
+#   shape               = var.node_shape
+
+#   dynamic "shape_config" {
+#     for_each = local.is_flex_shape ? [1] : []
+#     content {
+#       memory_in_gbs = var.node_flex_shape_memory
+#       ocpus         = var.node_flex_shape_ocpus
+#     }
+#   }
+
+#   create_vnic_details {
+#     subnet_id        = local.vm_subnet_id
+#     display_name     = "bastion-instance"
+#     assign_public_ip = var.should_config_public_ip_for_vm
+#   }
+
+#   source_details {
+#     source_id               = data.oci_core_images.InstanceImageOCID.images[0].id
+#     source_type             = "image"
+#     boot_volume_size_in_gbs = 50
+#   }
+
+#   metadata = {
+#     ssh_authorized_keys = var.ssh_public_key == "" ? "${tls_private_key.public_private_key_pair.public_key_openssh}" : "${var.ssh_public_key}\n${tls_private_key.public_private_key_pair.public_key_openssh}"
+#   }
+# }

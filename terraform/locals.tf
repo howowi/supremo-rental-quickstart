@@ -30,4 +30,7 @@ locals {
   opensearch_cluster_opendashboard_node_count           = 1
   opensearch_cluster_opendashboard_node_host_memory_gb  = 16
   opensearch_cluster_opendashboard_node_host_ocpu_count = 1
+
+  # Add random suffix
+  adb_db_name = "${var.adb_db_name}${random_id.tag.hex}"
 }

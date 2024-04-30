@@ -7,7 +7,7 @@ resource "oci_database_autonomous_database" "adb_database" {
   #Required
   admin_password = var.adb_admin_password
   compartment_id = var.compartment_ocid
-  db_name        = var.adb_db_name
+  db_name        = local.adb_db_name
 
   cpu_core_count           = var.adb_cpu_core_count
   data_storage_size_in_tbs = var.adb_data_storage_size_in_tbs
