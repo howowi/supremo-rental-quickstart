@@ -18,12 +18,85 @@ su opc -lc "echo VM_Intialization_Begins... >> /home/opc/app-init.out 2>&1" || t
    yum install pip -y >> /home/opc/app-init.out 2>&1 || true;
    su opc -lc "pip install pip -U >> /home/opc/app-init.out 2>&1" || true;
    su opc -lc "pip install psycopg2-binary >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "echo Install OCI... >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "pip install oci-cli >> /home/opc/app-init.out 2>&1" || true;
    su opc -lc "echo Install_Git... >> /home/opc/app-init.out 2>&1" || true;
    yum install git -y >> /home/opc/app-init.out 2>&1;
+   su opc -lc "echo Install_Nginx... >> /home/opc/app-init.out 2>&1" || true;
+   yum install nginx -y >> /home/opc/app-init.out 2>&1;
+   systemctl enable nginx;
    su opc -lc "echo Install_Postgresql_Client... >> /home/opc/app-init.out 2>&1" || true;
    yum install postgresql -y >> /home/opc/app-init.out 2>&1 || true;
    su opc -lc "echo Install_Java... >> /home/opc/app-init.out 2>&1" || true;
    yum install java -y >> /home/opc/app-init.out 2>&1;
    su opc -lc "echo Install_SQLcl... >> /home/opc/app-init.out 2>&1" || true;
    yum install sqlcl -y >> /home/opc/app-init.out 2>&1;
+   su opc -lc "echo Install_conntrack... >> /home/opc/app-init.out 2>&1" || true;
+   yum install conntrack -y >> /home/opc/app-init.out 2>&1 || true;
+   su opc -lc "echo Configure_Nginx... >> /home/opc/app-init.out 2>&1" || true;
+   mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig;
+   mv /home/opc/nginx.conf /etc/nginx/;
+   su opc -lc "echo Cloning_Application_Startup_Scripts... >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "git clone https://github.com/HysunHe/SupremoRentalDemo.git";
+   su opc -lc "chmod +x ~/SupremoRentalDemo/*.sh" || true;
+   su opc -lc "echo Configure_ADB_Wallet... >> /home/opc/app-init.out 2>&1" || true;
+   (su opc -lc "while ! [ -f ~/wallet/adb_wallet.zip ]; do echo -n . && sleep 1; done >> /home/opc/app-init.out 2>&1") || true;
+   su opc -lc "unzip -o ~/wallet/adb_wallet.zip -d ~/wallet/ >> /home/opc/app-init.out 2>&1";
+   (su opc -lc "sed -i 's/\?\/network\/admin/\/app\/wallet/' ~/wallet/sqlnet.ora") || true;
+   su opc -lc "echo Tune_System_Performance_Parameters... >> /home/opc/app-init.out 2>&1" || true;
+   touch /etc/systemd/system/nginx.service.d/filelimit.conf;
+   (echo "[Service]" >> /etc/systemd/system/nginx.service.d/filelimit.conf) || true;
+   (echo "LimitNOFILE=1000000" >> /etc/systemd/system/nginx.service.d/filelimit.conf) || true;
+   (echo "*               soft    nofile          1000000" >> /etc/security/limits.conf) || true;
+   (echo "*               hard    nofile          1000000" >> /etc/security/limits.conf) || true;
+   ulimit -n 1000000 && ulimit -Hn 1000000;
+   echo "net.nf_conntrack_max = 2621440" >> /etc/sysctl.conf || true;
+   echo "net.netfilter.nf_conntrack_max = 2621440" >> /etc/sysctl.conf || true;
+   sysctl -p;
+   systemctl daemon-reload;
+   systemctl restart nginx;
+   su opc -lc "echo Set_Envs... >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "sed -i 's/\s*=\s*/=/g' ~/app.env";
+   su opc -lc "chmod +x ~/app.env";
+   su opc -lc "chmod +x ~/db-init/*.sh";
+   su opc -lc "echo Generate_OCI_Config... >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "~/db-init/oci-config.sh >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "chmod 400 ~/.oci_docker/*" || true;
+   su opc -lc "chmod 400 ~/.oci/*" || true;
+   su opc -lc "echo Init_AJD... >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "~/db-init/ajd-init.sh >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "echo Init_PG... >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "~/db-init/pg-init.sh >> /home/opc/app-init.out 2>&1" || true;
+   # su opc -lc "echo Startup_App_Services... >> /home/opc/app-init.out 2>&1" || true;
+   # su opc -lc "~/SupremoRentalDemo/car-service-batch.sh >> /home/opc/app-init.out 2>&1" || true;
+   # su opc -lc "~/SupremoRentalDemo/car-service-redis-batch.sh >> /home/opc/app-init.out 2>&1" || true;
+   # su opc -lc "~/SupremoRentalDemo/login-service-batch.sh >> /home/opc/app-init.out 2>&1" || true;
+   # su opc -lc "~/SupremoRentalDemo/login-service-redis-batch.sh >> /home/opc/app-init.out 2>&1" || true;
+   # su opc -lc "~/SupremoRentalDemo/transaction-service-batch.sh >> /home/opc/app-init.out 2>&1" || true;
+   # su opc -lc "~/SupremoRentalDemo/car-health-service-batch.sh >> /home/opc/app-init.out 2>&1" || true;
+   # su opc -lc "~/SupremoRentalDemo/askme-service-batch.sh >> /home/opc/app-init.out 2>&1" || true;
+   # su opc -lc "echo Load_Data_For_AJD... >> /home/opc/app-init.out 2>&1" || true;
+   # su opc -lc "curl -X GET http://localhost/car-service/load-data >> /home/opc/app-init.out 2>&1" || true;
+   # su opc -lc "echo Load_Data_For_NoSQL... >> /home/opc/app-init.out 2>&1" || true;
+   # su opc -lc "curl -X GET http://localhost/car-health/load-data >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "echo ------------- >> /home/opc/app-init.out 2>&1" || true;
    su opc -lc "echo Congrat_VM_Intialization_Done. >> /home/opc/app-init.out 2>&1" || true;
+   
+
+
+# Load opensearch_data.json into OpenSearch cluster.
+curl -XPUT -u "${opensearch_username}:${opensearch_password}" "${opensearch_endpoint}/my_index" -H 'Content-Type: application/json' -d '
+{ 
+ "mappings": {
+ "properties": {
+ "id": {"type": "integer"},
+ "question": {"type": "text"},
+ "answer": {"type": "text"},
+ "url": {"type": "text"}
+ }
+ }
+}
+'
+
+curl -H 'Content-Type: application/x-ndjson' -XPOST -u "${opensearch_username}:${opensearch_password}" "${opensearch_endpoint}/my_index/_bulk?pretty" --data-binary @/home/opc/opensearch-init/opensearch_data.json
+
