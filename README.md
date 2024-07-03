@@ -4,7 +4,7 @@
 
 Click on the button below to deploy the baseline infrastructure using OCI Resource Manager.
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/howowi/supremo-rental-quickstart/releases/download/v1.9.9/supremo_stack_v1.9.9.zip)
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/howowi/supremo-rental-quickstart/releases/download/v1.9.10/supremo_stack_v1.9.10.zip)
 
 ### 2. Deploy frontend application
 **IMPORTANT**: Must complete the baseline infrastructure setup before following the steps below.
