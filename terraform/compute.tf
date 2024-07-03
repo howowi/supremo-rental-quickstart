@@ -163,6 +163,7 @@ resource "oci_core_instance" "service_instance" {
 }
 
 resource "oci_core_instance" "bastion_instance" {
+  depends_on          = [oci_database_autonomous_database.adb_database[0], local_file.adb_wallet_file[0], oci_opensearch_opensearch_cluster.opensearch_cluster[0]]
   count               = 1
   availability_domain = var.availability_domain_name == "" ? data.oci_identity_availability_domains.ADs.availability_domains[0]["name"] : var.availability_domain_name
   compartment_id      = var.compartment_ocid

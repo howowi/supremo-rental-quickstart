@@ -63,10 +63,10 @@ su opc -lc "echo VM_Intialization_Begins... >> /home/opc/app-init.out 2>&1" || t
    su opc -lc "~/db-init/oci-config.sh >> /home/opc/app-init.out 2>&1" || true;
    su opc -lc "chmod 400 ~/.oci_docker/*" || true;
    su opc -lc "chmod 400 ~/.oci/*" || true;
-   # su opc -lc "echo Init_AJD... >> /home/opc/app-init.out 2>&1" || true;
-   # su opc -lc "~/db-init/ajd-init.sh >> /home/opc/app-init.out 2>&1" || true;
-   # su opc -lc "echo Init_PG... >> /home/opc/app-init.out 2>&1" || true;
-   # su opc -lc "~/db-init/pg-init.sh >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "echo Init_AJD... >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "~/db-init/ajd-init.sh >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "echo Init_PG... >> /home/opc/app-init.out 2>&1" || true;
+   su opc -lc "~/db-init/pg-init.sh >> /home/opc/app-init.out 2>&1" || true;
    su opc -lc "echo Startup_App_Services... >> /home/opc/app-init.out 2>&1" || true;
    su opc -lc "~/SupremoRentalDemo/car-service-batch.sh >> /home/opc/app-init.out 2>&1" || true;
    su opc -lc "~/SupremoRentalDemo/car-service-redis-batch.sh >> /home/opc/app-init.out 2>&1" || true;
