@@ -108,8 +108,7 @@ output "OCI_CLI_FINGERPRINT" {
 }
 
 output "OCI_CLI_KEY_CONTENT" {
-  value     = tls_private_key.public_private_key_pair.private_key_pem
-  sensitive = true
+  value     = "Please download ${oci_objectstorage_object.private_key_object.object} from bucket ${oci_objectstorage_bucket.oss_bucket.name}"
 }
 
 output "OCI_CLI_REGION" {

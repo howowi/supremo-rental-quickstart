@@ -832,8 +832,7 @@ outputs:
     title: "OCI_CLI_FINGERPRINT"
 
   OCI_CLI_KEY_CONTENT:
-    sensitive: true
-    type: copyableString
+    type: string
     title: "OCI_CLI_KEY_CONTENT"
 
   OCI_CLI_REGION:
